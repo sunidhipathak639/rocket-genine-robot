@@ -1,148 +1,142 @@
-import { useEffect, useRef, useState } from "react";
 import { useGSAP } from "@gsap/react";
+import { animateWithGsap } from "../utils/animation";
 import gsap from "gsap";
-import ModelView from "./ModelView";
-import { yellowImg } from "../utils";
-import * as THREE from "three";
-import { Canvas } from "@react-three/fiber";
-import { View } from "@react-three/drei";
-import { models, sizes } from "../constants";
-import { animateWithGsapTimeline } from "../utils/animation";
+
+const courses = [
+  {
+    id: 1,
+    title: "Advanced Digital Marketing",
+    description:
+      "Master SEO, paid ads, social media strategy, content marketing, and analytics — with live campaigns on real budgets.",
+    duration: "4 Months",
+    outcome: "Digital Marketing Manager · Growth Hacker · SEO Specialist",
+    accentColor: "#6366f1",
+    img: "/assets/images/course_digital_marketing.png",
+  },
+  {
+    id: 2,
+    title: "Data Science & AI",
+    description:
+      "From Python fundamentals to machine learning, deep learning, and deploying AI models in production environments.",
+    duration: "6 Months",
+    outcome: "ML Engineer · Data Scientist · AI Product Manager",
+    accentColor: "#06b6d4",
+    img: "/assets/images/course_data_science_ai.png",
+  },
+  {
+    id: 3,
+    title: "Data Analytics",
+    description:
+      "Learn Excel, SQL, Power BI, and Tableau to turn raw data into decisions. Real dashboards, real business problems.",
+    duration: "3 Months",
+    outcome: "Data Analyst · Business Intelligence Analyst · MIS Executive",
+    accentColor: "#10b981",
+    img: "/assets/images/course_data_analytics.png",
+  },
+  {
+    id: 4,
+    title: "Finance Professional Program",
+    description:
+      "Financial modelling, investment analysis, CFA prep, and corporate finance — built for the modern finance professional.",
+    duration: "5 Months",
+    outcome: "Financial Analyst · Investment Banker · Portfolio Manager",
+    accentColor: "#f59e0b",
+    img: "/assets/images/course_finance.png",
+  },
+  {
+    id: 5,
+    title: "HR Management",
+    description:
+      "People analytics, talent acquisition, HRBP strategy, payroll, compliance, and culture building for the modern workplace.",
+    duration: "3 Months",
+    outcome: "HR Business Partner · Talent Acquisition Lead · HR Analyst",
+    accentColor: "#ec4899",
+    img: "/assets/images/course_hr_management.png",
+  },
+  {
+    id: 6,
+    title: "Marketing Diploma",
+    description:
+      "A comprehensive 360° marketing program covering branding, PR, digital channels, consumer behaviour, and campaign strategy.",
+    duration: "4 Months",
+    outcome: "Brand Manager · Marketing Executive · Campaign Strategist",
+    accentColor: "#f97316",
+    img: "/assets/images/course_marketing_diploma.png",
+  },
+];
 
 const Model = () => {
-  const [size, setSize] = useState("small");
-  const [model, setModel] = useState({
-    title: "iPhone 15 Pro in Natural Titanium",
-    color: ["#8F8A81", "#FFE7B9", "#6F6C64"],
-    img: yellowImg,
-  });
-
-  // camera control for the model view
-  const cameraControlSmall = useRef();
-  const cameraControlLarge = useRef();
-
-  // model control
-  const smallModel = useRef(new THREE.Group());
-  const largeModel = useRef(new THREE.Group());
-
-  // rotation control
-  const [smallRotation, setSmallRotation] = useState(0);
-  const [largeRotation, setLargeRotation] = useState(0);
-
-  const tl = gsap.timeline();
-
-  useEffect(() => {
-    if (size === "large") {
-      animateWithGsapTimeline(
-        tl,
-        smallModel,
-        smallRotation,
-        "#view1",
-        "#view2",
-        {
-          transform: "translateX(-100%)",
-          duration: 2,
-        }
-      );
-    }
-
-    if (size === "small") {
-      animateWithGsapTimeline(
-        tl,
-        largeModel,
-        largeRotation,
-        "#view2",
-        "#view1",
-        {
-          transform: "translateX(0)",
-          duration: 2,
-        }
-      );
-    }
-  }, [size]);
-
   useGSAP(() => {
-    gsap.to("#heading", {
-      opacity: 1,
-      y: 0,
-    });
+    gsap.to("#courses-heading", { opacity: 1, y: 0, duration: 1 });
+    animateWithGsap(".course-card", { opacity: 1, y: 0, duration: 0.8 });
   }, []);
+
   return (
-    <section className="common-padding">
+    <section className="common-padding bg-zinc">
       <div className="screen-max-width">
-        <h1 className="section-heading" id="heading">
-          Take a closer look
+        {/* Heading */}
+        <h1
+          id="courses-heading"
+          className="section-heading !text-white opacity-0 translate-y-10 mb-24"
+        >
+          Explore our courses
         </h1>
-        <div className="flex flex-col items-center mt-5">
-          <div className="relative w-full h-[75vh] md:h-[90vh] overflow-hidden">
-            <ModelView
-              index={1}
-              groupRef={smallModel}
-              gsapType={"view1"}
-              controlRef={cameraControlSmall}
-              setRotationState={setSmallRotation}
-              item={model}
-              size={size}
-            />
-            <ModelView
-              index={2}
-              groupRef={largeModel}
-              gsapType={"view2"}
-              controlRef={cameraControlLarge}
-              setRotationState={setLargeRotation}
-              item={model}
-              size={size}
-            />
-            <Canvas
-              className="w-full h-full"
-              style={{
-                position: "fixed",
-                top: 0,
-                left: 0,
-                bottom: 0,
-                right: 0,
-                overflow: "hidden",
-              }}
-              eventSource={document.getElementById("root")}
+
+        {/* Course grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mt-14 gap-6">
+          {courses.map((course) => (
+            <div
+              key={course.id}
+              className="course-card opacity-0 translate-y-10 group relative rounded-3xl overflow-hidden bg-[#111] border border-white/5 hover:border-white/20 transition-all duration-500 hover:-translate-y-1 hover:shadow-2xl"
+              style={{ boxShadow: `0 0 0 0 ${course.accentColor}` }}
             >
-              <View.Port />
-            </Canvas>
-          </div>
-          <div className="w-full mx-auto">
-            <p className="text-sm font-light text-center mb-2">{model.title}</p>
-            <p className="text-sm font-light text-gray-200 text-center mb-5">
-              Move iPhone with your mouse
-            </p>
-            <div className="flex-center">
-              <ul className="color-container">
-                {models.map((item, index) => (
-                  <li
-                    key={index}
-                    className="w-6 h-6 rounded-full mx-2 cursor-pointer"
-                    style={{
-                      backgroundColor: item.color[0],
-                    }}
-                    onClick={() => setModel(item)}
-                  />
-                ))}
-              </ul>
-              <button className="size-btn-container">
-                {sizes.map(({ label, value }) => (
-                  <span
-                    key={label}
-                    className="size-btn"
-                    style={{
-                      backgroundColor: size === value ? "white" : "transparent",
-                      color: size === value ? "black" : "white",
-                    }}
-                    onClick={() => setSize(value)}
+              {/* Course image */}
+              <div className="relative h-48 overflow-hidden">
+                <img
+                  src={course.img}
+                  alt={course.title}
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                />
+                {/* Subtle gradient overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-[#111] via-transparent to-transparent" />
+              </div>
+
+              {/* Content */}
+              <div className="p-6 pt-4">
+                {/* Accent tag */}
+                <span
+                  className="inline-block px-3 py-0.5 rounded-full text-xs font-semibold mb-3"
+                  style={{
+                    backgroundColor: `${course.accentColor}22`,
+                    color: course.accentColor,
+                  }}
+                >
+                  {course.duration}
+                </span>
+
+                <h2 className="text-white font-semibold text-lg leading-snug mb-2">
+                  {course.title}
+                </h2>
+
+                <p className="text-gray-400 text-sm leading-relaxed mb-4">
+                  {course.description}
+                </p>
+
+                {/* Career outcome */}
+                <div className="border-t border-white/5 pt-4">
+                  <p className="text-xs text-gray-500 uppercase tracking-wider mb-1">
+                    Career Outcome
+                  </p>
+                  <p
+                    className="text-sm font-medium"
+                    style={{ color: course.accentColor }}
                   >
-                    {label}
-                  </span>
-                ))}
-              </button>
+                    {course.outcome}
+                  </p>
+                </div>
+              </div>
             </div>
-          </div>
+          ))}
         </div>
       </div>
     </section>

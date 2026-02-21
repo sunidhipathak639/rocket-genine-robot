@@ -10,13 +10,25 @@ import Footer from "./components/Footer";
 const App = () => {
   return (
     <main className="bg-black">
-      <Navbar />
+      {/* Fixed Navbar floats above everything */}
+      <div className="fixed top-0 left-0 w-full z-50">
+        <Navbar />
+      </div>
+
+      {/* Fixed Hero stays locked to viewport */}
       <Hero />
-      <Highlights />
-      <Model />
-      <Features />
-      <HowItWorks />
-      <Footer/>
+
+      {/* Spacer equals the Hero height so scroll begins after it */}
+      <div className="h-screen" />
+
+      {/* Content sections scroll over the top of the Hero */}
+      <div className="relative z-10 bg-black">
+        <Highlights />
+        <Model />
+        <Features />
+        <HowItWorks />
+        <Footer />
+      </div>
     </main>
   );
 };

@@ -1,5 +1,5 @@
 import { useGSAP } from "@gsap/react";
-import { chipImg, frameImg, frameVideo } from "../utils";
+import { frameImg, frameVideo } from "../utils";
 import gsap from "gsap";
 import { useRef } from "react";
 import { animateWithGsap } from "../utils/animation";
@@ -27,65 +27,66 @@ const HowItWorks = () => {
   return (
     <section className="common-padding">
       <div className="screen-max-width">
+        {/* Robot Genie with colorful glow backdrop */}
         <div id="chip" className="flex-center my-20 w-full">
-          <img src={chipImg} alt="chip" width={180} height={180} />
+          <div className="relative flex-center">
+            {/* Colored ambient glow blobs */}
+            <div className="absolute w-72 h-72 rounded-full bg-blue-600 opacity-20 blur-3xl -left-10 top-0" />
+            <div className="absolute w-64 h-64 rounded-full bg-purple-500 opacity-20 blur-3xl right-0 top-10" />
+            <div className="absolute w-48 h-48 rounded-full bg-cyan-400 opacity-15 blur-2xl bottom-0 left-1/2 -translate-x-1/2" />
+
+            {/* Robot image */}
+            <img
+              src="/assets/images/robot_genine.png"
+              alt="Rocket Genine AI Robot"
+              width={110}
+              height={110}
+              className="relative z-10 drop-shadow-2xl"
+            />
+
+            {/* 3D orbiting rocket */}
+            <div className="orbit-scene">
+              <img
+                src="/assets/images/rocket.png"
+                alt="rocket"
+                className="rocket-3d"
+              />
+            </div>
+          </div>
         </div>
         <div className="flex flex-col items-center">
           <h2 className="hiw-title">
-            A17 Pro
-            <br />A monster wins for gaming
+            Placement First.
+            <br />
+            Career Guaranteed.
           </h2>
           <p className="hiw-subtitle">
-            It is here. The biggest redesign in the history of Apple GPUs
-          </p>
-        </div>
-        <div className="mt-10 mb-14 md:mt-20">
-          <div className="relative h-full flex-center">
-            <div className="overflow-hidden">
-              <img
-                src={frameImg}
-                alt="frame"
-                className="relative bg-transparent z-10"
-              />
-            </div>
-            <div className="hiw-video">
-              <video
-                className="pointer-events-none"
-                playsInline
-                preload="none"
-                muted
-                autoPlay
-                ref={videoRef}
-              >
-                <source src={frameVideo} type="video/mp4" />
-              </video>
-            </div>
-          </div>
-          <p className="text-center mt-3 text-gray font-semibold">
-            Honkai: Star rail
+            1,200+ students placed. 300+ hiring companies. 84 LPA highest
+            package.
           </p>
         </div>
         <div className="hiw-text-container">
           <div className="flex flex-1 justify-center flex-col">
             <p className="hiw-text g_fadeIn mb-4">
-              A17 Pro is an entirely new class of iPhone chip that delivers our{" "}
+              Our placement team works with{" "}
               <span className="text-white">
-                best graphic performance by far.{" "}
+                300+ top companies across India{" "}
               </span>
+              to source exclusive job opportunities for every batch.
             </p>
 
             <p className="hiw-text g_fadeIn">
-              Mobile{" "}
+              Students get{" "}
               <span className="text-white">
-                games will look and feel so immersive,{" "}
+                personalised mock interviews and resume reviews{" "}
               </span>
-              with incredibly detailed environments and characters.
+              with hiring managers from top firms.
             </p>
           </div>
           <div className="flex flex-1 flex-col justify-center g_fadeIn">
-            <p className="hiw-text">New</p>
-            <p className="hiw-bigtext">Pro-class GPU</p>
-            <p className="hiw-text">with 6 cores.</p>
+            <p className="hiw-text">Highest Package</p>
+            <p className="hiw-bigtext">84 LPA</p>
+            <p className="hiw-text">achieved by our alumni.</p>
           </div>
         </div>
       </div>
