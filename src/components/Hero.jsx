@@ -38,8 +38,9 @@ const Hero = () => {
         </a>
       </div>
 
-      {/* Spline 3D scene — pointer events only on md+ to avoid blocking touch scroll on mobile */}
-      <div className="absolute inset-0 z-0 pointer-events-none md:pointer-events-auto">
+      {/* Spline 3D scene — pointer-events-auto lets the robot head track touches on mobile. 
+          Native scrolling still works because of touch-action: pan-y in index.css */}
+      <div className="absolute inset-0 z-0 pointer-events-auto">
         <Spline scene="https://prod.spline.design/9aPp2nOUkM3wqAUO/scene.splinecode" />
       </div>
     </section>
