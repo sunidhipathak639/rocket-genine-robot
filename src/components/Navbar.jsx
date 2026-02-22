@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
-import { bagImg, searchImg } from "../utils";
+import { searchImg } from "../utils";
 import { navLists } from "../constants";
 
 const Navbar = () => {
@@ -58,7 +58,6 @@ const Navbar = () => {
 
         <div className="flex items-baseline gap-7 max-sm:justify-end max-sm:flex-1 sm:hidden">
           <img src={searchImg} alt="search" width={18} height={18} />
-          <img src={bagImg} alt="bag" width={18} height={18} />
         </div>
       </nav>
     </header>
