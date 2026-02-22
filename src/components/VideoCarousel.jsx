@@ -2,7 +2,7 @@ import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/all";
 gsap.registerPlugin(ScrollTrigger);
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 
 import { hightlightsSlides } from "../constants";
 
@@ -11,6 +11,7 @@ const VideoCarousel = () => {
   const videoSpanRef = useRef([]);
   const videoDivRef = useRef([]);
   const animRef = useRef(null); // ref to the current GSAP progress anim
+  const touchStartX = useRef(null); // track swipe start position
 
   const [video, setVideo] = useState({
     isEnd: false,
@@ -209,10 +210,45 @@ const VideoCarousel = () => {
 
   const handleLoadedMetaData = (i, e) => setLoadedData((pre) => [...pre, e]);
 
+  // ─── Touch swipe handlers for mobile ────────────────────────────────────────
+  const handleTouchStart = useCallback((e) => {
+    touchStartX.current = e.touches[0].clientX;
+  }, []);
+
+  const handleTouchEnd = useCallback(
+    (e) => {
+      if (touchStartX.current === null) return;
+      const deltaX = e.changedTouches[0].clientX - touchStartX.current;
+      const SWIPE_THRESHOLD = 50; // minimum px to count as a swipe
+
+      if (deltaX < -SWIPE_THRESHOLD) {
+        // Swiped LEFT → next video
+        if (videoId < totalVideos - 1) {
+          handleProcess("next");
+        } else {
+          handleProcess("video-last");
+        }
+      } else if (deltaX > SWIPE_THRESHOLD) {
+        // Swiped RIGHT → previous video
+        if (videoId > 0) {
+          handleProcess("video-jump", videoId - 1);
+        }
+      }
+      touchStartX.current = null;
+    },
+    [videoId, totalVideos],
+  );
+
   return (
     <>
       {/* ── Video slider ──────────────────────────────────────── */}
-      <div className="flex items-center">
+      {/* touch-action: pan-y allows vertical page scroll while we handle horizontal swipes */}
+      <div
+        className="flex items-center"
+        onTouchStart={handleTouchStart}
+        onTouchEnd={handleTouchEnd}
+        style={{ touchAction: "pan-y" }}
+      >
         {hightlightsSlides.map((list, i) => (
           <div key={list.id} id="slider" className="sm:pr-20 pr-10">
             <div className="video-carousel_container">
