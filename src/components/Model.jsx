@@ -1,7 +1,3 @@
-import { useGSAP } from "@gsap/react";
-import { animateWithGsap } from "../utils/animation";
-import gsap from "gsap";
-
 const courses = [
   {
     id: 1,
@@ -66,19 +62,11 @@ const courses = [
 ];
 
 const Model = () => {
-  useGSAP(() => {
-    gsap.to("#courses-heading", { opacity: 1, y: 0, duration: 1 });
-    animateWithGsap(".course-card", { opacity: 1, y: 0, duration: 0.8 });
-  }, []);
-
   return (
     <section className="common-padding bg-zinc">
       <div className="screen-max-width">
         {/* Heading */}
-        <h1
-          id="courses-heading"
-          className="section-heading !text-white opacity-0 translate-y-10 mb-24"
-        >
+        <h1 id="courses-heading" className="section-heading !text-white mb-24">
           Explore our courses
         </h1>
 
@@ -87,7 +75,7 @@ const Model = () => {
           {courses.map((course) => (
             <div
               key={course.id}
-              className="course-card opacity-0 translate-y-10 group relative rounded-3xl overflow-hidden bg-[#111] border border-white/5 hover:border-white/20 transition-all duration-500 hover:-translate-y-1 hover:shadow-2xl"
+              className="course-card group relative rounded-3xl overflow-hidden bg-[#111] border border-white/5 hover:border-white/20 transition-all duration-500 hover:-translate-y-1 hover:shadow-2xl"
               style={{ boxShadow: `0 0 0 0 ${course.accentColor}` }}
             >
               {/* Course image */}

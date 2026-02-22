@@ -1,29 +1,4 @@
-import { useGSAP } from "@gsap/react";
-import { frameImg, frameVideo } from "../utils";
-import gsap from "gsap";
-import { useRef } from "react";
-import { animateWithGsap } from "../utils/animation";
-
 const HowItWorks = () => {
-  const videoRef = useRef();
-  useGSAP(() => {
-    gsap.from("#chip", {
-      scrollTrigger: {
-        trigger: "#chip",
-        start: "20% bottom",
-      },
-      opacity: 0,
-      scale: 2,
-      duration: 2,
-      ease: "power2.inOut",
-    });
-    animateWithGsap(".g_fadeIn", {
-      opacity: 1,
-      y: 0,
-      duration: 1,
-      ease: "power2.inOut",
-    });
-  }, []);
   return (
     <section className="common-padding">
       <div className="screen-max-width">
@@ -67,7 +42,7 @@ const HowItWorks = () => {
         </div>
         <div className="hiw-text-container">
           <div className="flex flex-1 justify-center flex-col">
-            <p className="hiw-text g_fadeIn mb-4">
+            <p className="hiw-text mb-4">
               Our placement team works with{" "}
               <span className="text-white">
                 300+ top companies across India{" "}
@@ -75,7 +50,7 @@ const HowItWorks = () => {
               to source exclusive job opportunities for every batch.
             </p>
 
-            <p className="hiw-text g_fadeIn">
+            <p className="hiw-text">
               Students get{" "}
               <span className="text-white">
                 personalised mock interviews and resume reviews{" "}
@@ -83,7 +58,7 @@ const HowItWorks = () => {
               with hiring managers from top firms.
             </p>
           </div>
-          <div className="flex flex-1 flex-col justify-center g_fadeIn">
+          <div className="flex flex-1 flex-col justify-center">
             <p className="hiw-text">Highest Package</p>
             <p className="hiw-bigtext">84 LPA</p>
             <p className="hiw-text">achieved by our alumni.</p>

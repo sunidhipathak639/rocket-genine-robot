@@ -1,7 +1,3 @@
-import { useGSAP } from "@gsap/react";
-import { animateWithGsap } from "../utils/animation";
-import gsap from "gsap";
-
 const features = [
   {
     id: 1,
@@ -42,25 +38,12 @@ const features = [
 ];
 
 const Features = () => {
-  useGSAP(() => {
-    animateWithGsap("#features_title", { y: 0, opacity: 1, duration: 1.5 });
-    animateWithGsap(".feature-block", {
-      y: 0,
-      opacity: 1,
-      duration: 1,
-      stagger: 0.2,
-    });
-  }, []);
-
   return (
     <section className="common-padding bg-zinc relative overflow-hidden">
       <div className="screen-max-width">
         {/* Heading */}
         <div className="mb-20 w-full">
-          <h1
-            id="features_title"
-            className="section-heading !text-white opacity-0 translate-y-10"
-          >
+          <h1 id="features_title" className="section-heading !text-white">
             Inside our training environment
           </h1>
         </div>
@@ -70,7 +53,7 @@ const Features = () => {
           {features.map((f) => (
             <div
               key={f.id}
-              className={`feature-block opacity-0 translate-y-16 flex flex-col ${
+              className={`feature-block flex flex-col ${
                 f.align === "right" ? "lg:flex-row-reverse" : "lg:flex-row"
               } gap-10 lg:gap-16 items-center`}
             >

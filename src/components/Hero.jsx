@@ -10,7 +10,7 @@ const Hero = () => {
   }, []);
 
   return (
-    <section className="fixed top-0 left-0 w-full h-screen bg-black z-0">
+    <section className="sticky top-0 w-full h-screen bg-black z-0 overflow-hidden">
       {/* Text overlay — pointer-events-none so Spline gets mouse events */}
       <div className="absolute inset-0 z-10 pointer-events-none flex flex-col items-center justify-center px-5 text-center">
         <h1
@@ -38,8 +38,8 @@ const Hero = () => {
         </a>
       </div>
 
-      {/* Spline 3D scene — receives all mouse events for robot head tracking */}
-      <div className="absolute inset-0 z-0 pointer-events-auto">
+      {/* Spline 3D scene — pointer events only on md+ to avoid blocking touch scroll on mobile */}
+      <div className="absolute inset-0 z-0 pointer-events-none md:pointer-events-auto">
         <Spline scene="https://prod.spline.design/9aPp2nOUkM3wqAUO/scene.splinecode" />
       </div>
     </section>

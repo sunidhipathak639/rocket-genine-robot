@@ -19,7 +19,8 @@ body {
 }
 
 canvas {
-  touch-action: none;
+  /* Allow vertical scroll on mobile — Spline needs pan-y passthrough */
+  touch-action: pan-y;
 }
 
 .screen-max-width {
@@ -59,7 +60,7 @@ canvas {
   }
 
   .section-heading {
-    @apply text-gray lg:text-6xl md:text-5xl text-3xl lg:mb-0 mb-5 font-medium opacity-0 translate-y-20
+    @apply text-gray lg:text-6xl md:text-5xl text-3xl lg:mb-0 mb-5 font-medium
   }
 
   .feature-text {

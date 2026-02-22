@@ -15,13 +15,12 @@ const App = () => {
         <Navbar />
       </div>
 
-      {/* Fixed Hero stays locked to viewport */}
+      {/* Hero is sticky — pins at top while content scrolls over it.
+          Works flawlessly on iOS/Android without fixed-position bugs. */}
       <Hero />
 
-      {/* Spacer equals the Hero height so scroll begins after it */}
-      <div className="h-screen" />
-
-      {/* Content sections scroll over the top of the Hero */}
+      {/* Content sections stack directly after the hero — no spacer needed.
+          z-10 + bg-black ensures they slide over the pinned hero. */}
       <div className="relative z-10 bg-black">
         <Highlights />
         <Model />
