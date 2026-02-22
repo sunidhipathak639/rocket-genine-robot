@@ -17,7 +17,7 @@ const Hero = () => {
           id="hero-title"
           className="text-white font-semibold text-3xl md:text-5xl lg:text-6xl opacity-0 translate-y-8 max-w-3xl leading-tight"
         >
-          India&apos;s Advanced AI Career Institute
+          Welcome to the Future of Intelligent Automation
         </h1>
 
         <p
