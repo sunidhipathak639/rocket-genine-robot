@@ -20,18 +20,23 @@ export const metadata: Metadata = {
     "Master artificial intelligence with Robot Genie. Transform your career with industry-leading courses and hands-on training.",
 };
 
+import { AIParticlesBackground } from "@/components/ui/AIParticlesBackground";
+import { MouseTrail } from "@/components/ui/MouseTrail";
+
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="scroll-smooth">
+    <html lang="en" className="scroll-smooth dark">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen bg-background text-foreground selection:bg-primary/30 selection:text-primary flex flex-col`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen bg-transparent text-foreground selection:bg-primary/30 selection:text-primary flex flex-col relative`}
       >
+        <MouseTrail />
+        <AIParticlesBackground />
         <Header />
-        <main className="flex-1">{children}</main>
+        <main className="flex-1 relative z-10">{children}</main>
         <Footer />
       </body>
     </html>
