@@ -11,6 +11,7 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import { useEffect, useState, useRef } from "react";
+import { useSound } from "@/hooks/useSound";
 
 function AnimatedCounter({
   value,
@@ -46,6 +47,7 @@ function AnimatedCounter({
 }
 
 export function PlacementProofSection() {
+  const { playSound } = useSound();
   const stats = [
     { label: "Placement Rate", value: 94, suffix: "%", icon: Briefcase },
     { label: "Avg. Salary Hike", value: 120, suffix: "%", icon: TrendingUp },
@@ -132,7 +134,7 @@ export function PlacementProofSection() {
               type: "spring",
               bounce: 0.4,
             }}
-            className={`absolute hidden lg:flex flex-col gap-1 p-3 rounded-xl bg-white/5 backdrop-blur-md border border-white/10 shadow-[0_0_20px_rgba(255,255,255,0.05)] text-left min-w-[160px]`}
+            className="absolute hidden lg:block z-0"
             style={{
               top: offer.top,
               left: offer.left,
@@ -140,12 +142,38 @@ export function PlacementProofSection() {
               bottom: offer.bottom,
             }}
           >
-            <div className="flex items-center gap-1.5 text-green-400 text-xs font-bold uppercase tracking-wider mb-1">
-              <CheckCircle2 className="w-3.5 h-3.5" /> Offered
-            </div>
-            <div className="text-white font-semibold">{offer.company}</div>
-            <div className="text-muted-foreground text-xs">{offer.role}</div>
-            <div className="text-primary font-bold mt-1">{offer.ctc}</div>
+            <motion.div
+              animate={{
+                y: [0, -12, 0],
+                x: [0, 6, 0],
+              }}
+              transition={{
+                y: {
+                  duration: 3.5 + idx * 0.5,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                },
+                x: {
+                  duration: 4.5 + idx * 0.5,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                },
+              }}
+              className="flex flex-col gap-0.5 p-2 px-3 rounded-lg bg-white/5 backdrop-blur-md border border-white/10 shadow-[0_0_15px_rgba(255,255,255,0.05)] text-left w-auto whitespace-nowrap"
+            >
+              <div className="flex items-center gap-1 text-green-400 text-[10px] font-bold uppercase tracking-wider mb-0.5">
+                <CheckCircle2 className="w-3 h-3" /> Offered
+              </div>
+              <div className="text-white text-sm font-semibold leading-tight">
+                {offer.company}
+              </div>
+              <div className="text-muted-foreground text-[10px] leading-tight">
+                {offer.role}
+              </div>
+              <div className="text-primary text-xs font-bold mt-0.5 leading-tight">
+                {offer.ctc}
+              </div>
+            </motion.div>
           </motion.div>
         ))}
       </div>
@@ -176,15 +204,20 @@ export function PlacementProofSection() {
                   delay: index * 0.15,
                   type: "spring",
                 }}
-                className="flex flex-col items-center justify-center p-8 rounded-3xl bg-secondary/20 backdrop-blur-xl border border-white/10 shadow-[0_0_30px_rgba(0,0,0,0.3)] hover:border-primary/50 hover:bg-secondary/40 transition-all duration-500 group"
+                onMouseEnter={() => playSound("hover")}
+                className="flex flex-col items-center justify-center p-8 rounded-3xl bg-[#0a0a0a]/80 backdrop-blur-2xl border border-white/5 shadow-[0_4px_30px_rgba(0,0,0,0.5)] hover:border-primary/50 hover:bg-white/5 transition-all duration-500 group relative overflow-hidden transform-gpu hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(59,130,246,0.2)]"
               >
-                <div className="w-14 h-14 rounded-2xl bg-white/5 flex items-center justify-center mb-6 inner-shadow group-hover:scale-110 group-hover:bg-primary/20 transition-all duration-500">
-                  <Icon className="w-7 h-7 text-primary drop-shadow-[0_0_8px_rgba(59,130,246,0.6)]" />
+                {/* Holographic sweep effect on hover */}
+                <div className="absolute inset-0 bg-gradient-to-tr from-primary/0 via-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-0" />
+                <div className="absolute -inset-[100%] bg-gradient-to-r from-transparent via-white/10 to-transparent rotate-45 group-hover:translate-x-[200%] transition-transform duration-1000 ease-in-out z-0" />
+
+                <div className="w-14 h-14 rounded-2xl bg-white/5 flex items-center justify-center mb-6 inner-shadow group-hover:scale-110 group-hover:bg-primary/20 transition-all duration-500 relative z-10 border border-white/5 group-hover:border-primary/30">
+                  <Icon className="w-7 h-7 text-primary drop-shadow-[0_0_8px_rgba(59,130,246,0.6)] group-hover:text-white transition-colors duration-500" />
                 </div>
-                <h3 className="text-4xl md:text-5xl font-black tracking-tighter mb-2 text-white drop-shadow-md">
+                <h3 className="text-4xl md:text-5xl font-black tracking-tighter mb-2 text-white drop-shadow-md relative z-10 group-hover:text-primary transition-colors duration-300">
                   <AnimatedCounter value={stat.value} suffix={stat.suffix} />
                 </h3>
-                <p className="text-sm font-semibold text-muted-foreground uppercase tracking-widest mt-1">
+                <p className="text-sm font-semibold text-muted-foreground uppercase tracking-widest mt-1 relative z-10 group-hover:text-foreground transition-colors duration-300">
                   {stat.label}
                 </p>
               </motion.div>

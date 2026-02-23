@@ -2,25 +2,35 @@
 
 import { motion, useScroll, useTransform } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import {
-  ArrowRight,
-  PlayCircle,
-  MessageCircle,
-  Star,
-  ShieldCheck,
-} from "lucide-react";
+import { ArrowRight, PlayCircle, Star, ShieldCheck } from "lucide-react";
 import Spline from "@splinetool/react-spline";
-import { useRef } from "react";
+import { useRef, useState, useEffect } from "react";
+import { useSound } from "@/hooks/useSound";
+import Image from "next/image";
 
 export function HeroSection() {
   const containerRef = useRef<HTMLDivElement>(null);
+  const [mouseOffset, setMouseOffset] = useState({ x: 0, y: 0 });
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start start", "end start"],
   });
 
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      // Calculate offset relative to center of screen for subtle parallax
+      const x = (e.clientX / window.innerWidth - 0.5) * 20;
+      const y = (e.clientY / window.innerHeight - 0.5) * 20;
+      setMouseOffset({ x, y });
+    };
+
+    window.addEventListener("mousemove", handleMouseMove);
+    return () => window.removeEventListener("mousemove", handleMouseMove);
+  }, []);
+
   const y = useTransform(scrollYProgress, [0, 1], ["0%", "50%"]);
   const opacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
+  const { playSound } = useSound();
 
   return (
     <section
@@ -82,18 +92,22 @@ export function HeroSection() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.3 }}
-              className="flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto"
+              className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 w-full"
             >
               <Button
                 size="lg"
-                className="rounded-full h-14 px-8 text-lg font-semibold bg-white text-black hover:bg-white/90 shadow-[0_0_20px_rgba(255,255,255,0.3)] hover:shadow-[0_0_30px_rgba(255,255,255,0.5)] transition-all transform hover:-translate-y-1"
+                onMouseEnter={() => playSound("hover")}
+                onClick={() => playSound("click")}
+                className="w-full sm:w-auto rounded-full h-14 px-8 text-lg font-semibold bg-white text-black hover:bg-white/90 shadow-[0_0_20px_rgba(255,255,255,0.3)] hover:shadow-[0_0_30px_rgba(255,255,255,0.5)] transition-all transform hover:-translate-y-1"
               >
                 Book Free Demo <ArrowRight className="ml-2 w-5 h-5" />
               </Button>
               <Button
                 size="lg"
                 variant="outline"
-                className="rounded-full h-14 px-8 text-lg font-semibold bg-secondary/20 border-border/50 backdrop-blur-md hover:bg-secondary/40 transition-all text-white"
+                onMouseEnter={() => playSound("hover")}
+                onClick={() => playSound("click")}
+                className="w-full sm:w-auto rounded-full h-14 px-8 text-lg font-semibold bg-secondary/20 border-border/50 backdrop-blur-md hover:bg-secondary/40 transition-all text-white"
               >
                 <PlayCircle className="mr-2 w-5 h-5" /> Watch Intro
               </Button>
@@ -142,7 +156,14 @@ export function HeroSection() {
               transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
               className="relative w-full h-full pointer-events-auto"
             >
-              <Spline scene="https://prod.spline.design/9aPp2nOUkM3wqAUO/scene.splinecode" />
+              {/* Mouse tracking parallax wrapper */}
+              <motion.div
+                animate={{ x: mouseOffset.x, y: mouseOffset.y }}
+                transition={{ type: "spring", stiffness: 100, damping: 30 }}
+                className="w-full h-full"
+              >
+                <Spline scene="https://prod.spline.design/9aPp2nOUkM3wqAUO/scene.splinecode" />
+              </motion.div>
 
               {/* Scanline / Light Beam Effect */}
               <motion.div
@@ -158,13 +179,17 @@ export function HeroSection() {
               animate={{ opacity: 1, x: 0, y: 0 }}
               transition={{ duration: 0.8, delay: 0.6 }}
               whileHover={{ scale: 1.05 }}
-              className="absolute -bottom-6 -left-6 md:bottom-10 md:-left-12 bg-black/60 backdrop-blur-xl border border-white/10 p-3 rounded-2xl shadow-2xl flex items-center gap-4 cursor-pointer z-50 w-64 group"
+              onMouseEnter={() => playSound("pop")}
+              onClick={() => playSound("click")}
+              className="absolute -bottom-6 -left-6 md:bottom-10 md:-left-12 bg-black/60 backdrop-blur-xl border border-white/10 p-3 rounded-2xl shadow-2xl flex items-center gap-4 cursor-pointer z-50 w-64 group hover:animate-glitch"
             >
               <div className="relative w-12 h-12 rounded-full overflow-hidden shrink-0 border border-white/20">
-                <img
+                <Image
                   src="/testimonial-1.png"
                   alt="Student"
-                  className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all"
+                  fill
+                  sizes="48px"
+                  className="object-cover grayscale group-hover:grayscale-0 transition-all"
                 />
                 <div className="absolute inset-0 bg-primary/20 flex items-center justify-center">
                   <PlayCircle className="w-5 h-5 text-white drop-shadow-md" />
@@ -181,18 +206,6 @@ export function HeroSection() {
             </motion.div>
           </div>
         </div>
-      </motion.div>
-
-      {/* Floating WhatsApp Final Anchor */}
-      <motion.div
-        initial={{ opacity: 0, scale: 0 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.5, delay: 1 }}
-        className="fixed bottom-6 right-6 z-50"
-      >
-        <button className="flex items-center justify-center w-14 h-14 bg-green-500 hover:bg-green-400 text-white rounded-full shadow-[0_0_20px_rgba(34,197,94,0.5)] hover:shadow-[0_0_30px_rgba(34,197,94,0.7)] transition-all group">
-          <MessageCircle className="w-7 h-7 group-hover:scale-110 transition-transform" />
-        </button>
       </motion.div>
     </section>
   );

@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState } from "react";
 
 export function AIParticlesBackground() {
   const [mounted, setMounted] = useState(false);

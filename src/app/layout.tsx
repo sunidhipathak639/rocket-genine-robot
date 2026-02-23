@@ -22,6 +22,8 @@ export const metadata: Metadata = {
 
 import { AIParticlesBackground } from "@/components/ui/AIParticlesBackground";
 import { MouseTrail } from "@/components/ui/MouseTrail";
+import { AIChatbot } from "@/components/ui/AIChatbot";
+import { AIVoiceInitializer } from "@/components/ui/AIVoiceInitializer";
 
 export default function RootLayout({
   children,
@@ -33,8 +35,10 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen bg-transparent text-foreground selection:bg-primary/30 selection:text-primary flex flex-col relative`}
       >
+        <AIVoiceInitializer />
         <MouseTrail />
         <AIParticlesBackground />
+        <AIChatbot />
         <Header />
         <main className="flex-1 relative z-10">{children}</main>
         <Footer />

@@ -13,13 +13,16 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Clock, BookOpen, ArrowRight } from "lucide-react";
 import React, { useRef, useState } from "react";
+import { useSound } from "@/hooks/useSound";
 
 function TiltCard({
   children,
   className = "",
+  onMouseEnter,
 }: {
   children: React.ReactNode;
   className?: string;
+  onMouseEnter?: () => void;
 }) {
   const ref = useRef<HTMLDivElement>(null);
   const [rotateX, setRotateX] = useState(0);
@@ -52,6 +55,7 @@ function TiltCard({
         ref={ref}
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
+        onMouseEnter={onMouseEnter}
         animate={{ rotateX, rotateY }}
         transition={{ type: "spring", stiffness: 400, damping: 30, mass: 0.5 }}
         className="h-full w-full relative group transform-gpu"
@@ -64,6 +68,8 @@ function TiltCard({
 }
 
 export function CoursesSection() {
+  const { playSound } = useSound();
+
   const courses = [
     {
       title: "AI Foundations Bootcamp",
@@ -158,7 +164,10 @@ export function CoursesSection() {
         >
           {courses.map((course, index) => (
             <motion.div key={index} variants={itemVariants} className="h-full">
-              <TiltCard className="h-full">
+              <TiltCard
+                className="h-full"
+                onMouseEnter={() => playSound("hover")}
+              >
                 {/* Neon Glow Behind Card */}
                 <div className="absolute -inset-0.5 bg-gradient-to-r from-primary/50 to-purple-600/50 rounded-xl blur opacity-0 group-hover:opacity-100 transition duration-1000 group-hover:duration-200" />
 
@@ -220,6 +229,7 @@ export function CoursesSection() {
                   <CardFooter className="pt-4 pb-6 px-6">
                     <Button
                       variant="ghost"
+                      onClick={() => playSound("pop")}
                       className="w-full justify-between bg-white/5 group-hover:bg-primary group-hover:text-primary-foreground transition-all duration-300 rounded-lg h-12 text-base border border-transparent group-hover:shadow-[0_0_20px_rgba(59,130,246,0.4)]"
                     >
                       <span className="font-semibold text-foreground group-hover:text-primary-foreground">
