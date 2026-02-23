@@ -169,14 +169,14 @@ export function CoursesSection() {
                 onMouseEnter={() => playSound("hover")}
               >
                 {/* Neon Glow Behind Card */}
-                <div className="absolute -inset-0.5 bg-gradient-to-r from-primary/50 to-purple-600/50 rounded-xl blur opacity-0 group-hover:opacity-100 transition duration-1000 group-hover:duration-200" />
+                <div className="absolute -inset-0.5 bg-gradient-to-r from-primary/50 to-purple-600/50 rounded-xl blur opacity-100 md:opacity-0 group-hover:opacity-100 transition duration-1000 group-hover:duration-200" />
 
                 <Card
-                  className="h-full flex flex-col relative overflow-hidden bg-[#0a0a0a]/80 backdrop-blur-xl border border-white/10 group-hover:border-white/20 shadow-2xl transition-colors duration-500 rounded-xl"
+                  className="h-full flex flex-col relative overflow-hidden bg-[#0a0a0a]/80 backdrop-blur-xl border border-white/20 md:border-white/10 group-hover:border-white/20 shadow-2xl transition-colors duration-500 rounded-xl"
                   style={{ transform: "translateZ(30px)" }} // Pop card content out
                 >
                   {/* Animated Gradient Accent Line Top */}
-                  <div className="absolute top-0 left-0 right-0 h-[2px] w-full overflow-hidden opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <div className="absolute top-0 left-0 right-0 h-[2px] w-full overflow-hidden opacity-100 md:opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                     <div className="w-[50%] h-full bg-gradient-to-r from-transparent via-primary to-transparent absolute -left-[50%] animate-[scan_2s_ease-in-out_infinite]" />
                   </div>
 
@@ -203,7 +203,7 @@ export function CoursesSection() {
                         </Badge>
                       )}
                     </div>
-                    <CardTitle className="text-2xl font-bold group-hover:text-primary transition-colors text-white">
+                    <CardTitle className="text-2xl font-bold text-primary md:text-white group-hover:text-primary transition-colors">
                       {course.title}
                     </CardTitle>
                     <CardDescription className="pt-3 text-base leading-relaxed text-muted-foreground/80">
@@ -212,7 +212,7 @@ export function CoursesSection() {
                   </CardHeader>
 
                   <CardContent className="mt-auto">
-                    <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground/80 mt-2 p-4 bg-white/5 rounded-lg border border-white/5 backdrop-blur-sm shadow-inner group-hover:bg-white/10 transition-colors">
+                    <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground/80 mt-2 p-4 bg-white/10 md:bg-white/5 rounded-lg border border-white/5 backdrop-blur-sm shadow-inner group-hover:bg-white/10 transition-colors">
                       <div className="flex items-center gap-2">
                         <Clock className="w-4 h-4 text-primary" />
                         <span className="font-medium">{course.duration}</span>
@@ -230,12 +230,12 @@ export function CoursesSection() {
                     <Button
                       variant="ghost"
                       onClick={() => playSound("pop")}
-                      className="w-full justify-between bg-white/5 group-hover:bg-primary group-hover:text-primary-foreground transition-all duration-300 rounded-lg h-12 text-base border border-transparent group-hover:shadow-[0_0_20px_rgba(59,130,246,0.4)]"
+                      className="w-full justify-between bg-primary md:bg-white/5 group-hover:bg-primary text-primary-foreground md:text-foreground group-hover:text-primary-foreground transition-all duration-300 rounded-lg h-12 text-base border border-transparent shadow-[0_0_20px_rgba(59,130,246,0.4)] md:shadow-none group-hover:shadow-[0_0_20px_rgba(59,130,246,0.4)]"
                     >
-                      <span className="font-semibold text-foreground group-hover:text-primary-foreground">
+                      <span className="font-semibold text-primary-foreground md:text-foreground group-hover:text-primary-foreground">
                         Explore Course
                       </span>
-                      <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform text-foreground group-hover:text-primary-foreground" />
+                      <ArrowRight className="w-5 h-5 translate-x-1 md:translate-x-0 group-hover:translate-x-1 transition-transform text-primary-foreground md:text-foreground group-hover:text-primary-foreground" />
                     </Button>
                   </CardFooter>
                 </Card>

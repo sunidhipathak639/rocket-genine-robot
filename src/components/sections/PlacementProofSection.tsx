@@ -205,19 +205,19 @@ export function PlacementProofSection() {
                   type: "spring",
                 }}
                 onMouseEnter={() => playSound("hover")}
-                className="flex flex-col items-center justify-center p-8 rounded-3xl bg-[#0a0a0a]/80 backdrop-blur-2xl border border-white/5 shadow-[0_4px_30px_rgba(0,0,0,0.5)] hover:border-primary/50 hover:bg-white/5 transition-all duration-500 group relative overflow-hidden transform-gpu hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(59,130,246,0.2)]"
+                className="flex flex-col items-center justify-center p-8 rounded-3xl bg-white/5 border-primary/50 shadow-[0_20px_40px_rgba(59,130,246,0.2)] md:bg-[#0a0a0a]/80 md:border-white/5 md:shadow-[0_4px_30px_rgba(0,0,0,0.5)] md:hover:border-primary/50 md:hover:bg-white/5 transition-all duration-500 group relative overflow-hidden transform-gpu -translate-y-2 md:translate-y-0 md:hover:-translate-y-2 md:hover:shadow-[0_20px_40px_rgba(59,130,246,0.2)]"
               >
                 {/* Holographic sweep effect on hover */}
-                <div className="absolute inset-0 bg-gradient-to-tr from-primary/0 via-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-0" />
+                <div className="absolute inset-0 bg-gradient-to-tr from-primary/0 via-primary/5 to-transparent opacity-100 md:opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-0" />
                 <div className="absolute -inset-[100%] bg-gradient-to-r from-transparent via-white/10 to-transparent rotate-45 group-hover:translate-x-[200%] transition-transform duration-1000 ease-in-out z-0" />
 
-                <div className="w-14 h-14 rounded-2xl bg-white/5 flex items-center justify-center mb-6 inner-shadow group-hover:scale-110 group-hover:bg-primary/20 transition-all duration-500 relative z-10 border border-white/5 group-hover:border-primary/30">
-                  <Icon className="w-7 h-7 text-primary drop-shadow-[0_0_8px_rgba(59,130,246,0.6)] group-hover:text-white transition-colors duration-500" />
+                <div className="w-14 h-14 rounded-2xl bg-primary/20 md:bg-white/5 flex items-center justify-center mb-6 inner-shadow scale-110 md:scale-100 group-hover:scale-110 group-hover:bg-primary/20 transition-all duration-500 relative z-10 border border-primary/30 md:border-white/5 group-hover:border-primary/30">
+                  <Icon className="w-7 h-7 text-white md:text-primary drop-shadow-[0_0_8px_rgba(59,130,246,0.6)] group-hover:text-white transition-colors duration-500" />
                 </div>
-                <h3 className="text-4xl md:text-5xl font-black tracking-tighter mb-2 text-white drop-shadow-md relative z-10 group-hover:text-primary transition-colors duration-300">
+                <h3 className="text-4xl md:text-5xl font-black tracking-tighter mb-2 text-primary md:text-white drop-shadow-md relative z-10 group-hover:text-primary transition-colors duration-300">
                   <AnimatedCounter value={stat.value} suffix={stat.suffix} />
                 </h3>
-                <p className="text-sm font-semibold text-muted-foreground uppercase tracking-widest mt-1 relative z-10 group-hover:text-foreground transition-colors duration-300">
+                <p className="text-sm font-semibold text-foreground md:text-muted-foreground uppercase tracking-widest mt-1 relative z-10 group-hover:text-foreground transition-colors duration-300">
                   {stat.label}
                 </p>
               </motion.div>
@@ -254,7 +254,7 @@ export function PlacementProofSection() {
             {[...logos, ...logos].map((logo, index) => (
               <div
                 key={index}
-                className="flex items-center justify-center opacity-50 hover:opacity-100 transition-all duration-500 grayscale hover:grayscale-0 hover:scale-110 drop-shadow-[0_0_15px_rgba(255,255,255,0.1)] hover:drop-shadow-[0_0_20px_rgba(255,255,255,0.3)]"
+                className="flex items-center justify-center opacity-100 md:opacity-50 md:hover:opacity-100 transition-all duration-500 grayscale-0 md:grayscale md:hover:grayscale-0 scale-110 md:scale-100 md:hover:scale-110 drop-shadow-[0_0_20px_rgba(255,255,255,0.3)] md:drop-shadow-[0_0_15px_rgba(255,255,255,0.1)] md:hover:drop-shadow-[0_0_20px_rgba(255,255,255,0.3)]"
               >
                 <div className="relative h-14 w-36 flex justify-center items-center">
                   {/* Using invert to make the black logos white */}

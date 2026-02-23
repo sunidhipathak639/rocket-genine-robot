@@ -55,8 +55,8 @@ export function WhyChooseUsSection() {
             Why Choose Robot Genie?
           </h2>
           <p className="text-lg text-muted-foreground">
-            We don't just teach theory. We build practitioners ready to tackle
-            enterprise-scale AI challenges from day one.
+            We don&apos;t just teach theory. We build practitioners ready to
+            tackle enterprise-scale AI challenges from day one.
           </p>
         </div>
 
@@ -75,8 +75,8 @@ export function WhyChooseUsSection() {
                 variants={itemVariants}
                 className="flex flex-col items-center text-center group"
               >
-                <div className="w-16 h-16 rounded-2xl bg-secondary flex items-center justify-center mb-6 group-hover:scale-110 group-hover:bg-primary group-hover:text-primary-foreground transition-all duration-300 shadow-sm">
-                  <Icon className="w-8 h-8 text-foreground group-hover:text-primary-foreground transition-colors" />
+                <div className="w-16 h-16 rounded-2xl bg-primary md:bg-secondary flex items-center justify-center mb-6 scale-110 md:scale-100 group-hover:scale-110 group-hover:bg-primary text-primary-foreground md:text-foreground group-hover:text-primary-foreground transition-all duration-300 shadow-sm">
+                  <Icon className="w-8 h-8 text-primary-foreground md:text-foreground group-hover:text-primary-foreground transition-colors" />
                 </div>
                 <h3 className="text-xl font-semibold mb-3 text-foreground">
                   {feature.title}
