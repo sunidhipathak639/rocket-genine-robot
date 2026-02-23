@@ -60,19 +60,37 @@ export function HeroSection() {
               </span>
             </motion.div>
 
-            {/* Glowing Headline */}
+            {/* Glowing Headline with Typing Effect */}
             <motion.h1
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.1 }}
-              className="text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-black tracking-tighter mb-6 relative"
+              className="font-heading text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-black tracking-tighter mb-6 relative"
             >
-              <span className="bg-clip-text text-transparent bg-gradient-to-r from-white via-white/90 to-white/70 drop-shadow-[0_0_30px_rgba(255,255,255,0.3)]">
-                Master AI.
+              <span className="bg-clip-text text-transparent bg-gradient-to-r from-white via-white/90 to-white/70 drop-shadow-[0_0_30px_rgba(255,255,255,0.3)] inline-block">
+                {"Master AI.".split("").map((char, i) => (
+                  <motion.span
+                    key={`m-${i}`}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 0.1, delay: i * 0.05 }}
+                  >
+                    {char}
+                  </motion.span>
+                ))}
               </span>
               <br />
-              <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-indigo-400 to-purple-400 drop-shadow-[0_0_30px_rgba(99,102,241,0.4)] animate-pulse-slow">
-                Shape the Future.
+              <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-indigo-400 to-purple-400 drop-shadow-[0_0_30px_rgba(99,102,241,0.4)] animate-pulse-slow inline-block">
+                {"Shape the Future.".split("").map((char, i) => (
+                  <motion.span
+                    key={`s-${i}`}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 0.1, delay: 0.5 + i * 0.05 }}
+                  >
+                    {char === " " ? "\u00A0" : char}
+                  </motion.span>
+                ))}
               </span>
             </motion.h1>
 

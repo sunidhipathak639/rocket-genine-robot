@@ -66,7 +66,7 @@ export function TestimonialsCarousel() {
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
           <div className="max-w-xl">
             <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-4 text-foreground">
-              Don't Just Take Our Word For It
+              Don&apos;t Just Take Our Word For It
             </h2>
             <p className="text-lg text-muted-foreground">
               Hear directly from the alumni who transformed their careers and
@@ -111,11 +111,19 @@ export function TestimonialsCarousel() {
                             <Play className="w-5 h-5 ml-1" />
                           </div>
                         </div>
-                        <div className="p-6">
-                          <p className="text-muted-foreground italic mb-6">
-                            "{item.quote}"
+                        <div className="p-6 relative group/quote overflow-hidden">
+                          {/* Large Decorative Quote Icon */}
+                          <div className="absolute -top-4 -right-2 text-8xl text-white/5 font-serif select-none pointer-events-none group-hover/quote:text-primary/10 transition-colors duration-500">
+                            "
+                          </div>
+
+                          {/* Floating Highlight Backdrop */}
+                          <div className="absolute inset-2 bg-gradient-to-br from-primary/10 to-purple-500/5 rounded-2xl opacity-0 scale-95 transition-all duration-500 group-hover/quote:opacity-100 group-hover/quote:scale-100 -z-10" />
+
+                          <p className="text-muted-foreground italic mb-6 relative z-10 transition-colors duration-500 group-hover/quote:text-white drop-shadow-sm">
+                            &quot;{item.quote}&quot;
                           </p>
-                          <div>
+                          <div className="relative z-10 transform transition-transform duration-500 group-hover/quote:translate-x-2">
                             <p className="font-semibold text-foreground text-sm">
                               {item.name}
                             </p>
