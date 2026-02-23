@@ -206,10 +206,10 @@ export function AIChatbot() {
               <Button
                 type="submit"
                 size="icon"
-                className="h-10 w-10 shrink-0 rounded-full bg-primary hover:bg-primary/90 text-white shadow-[0_0_15px_rgba(59,130,246,0.4)]"
+                className="h-10 w-10 shrink-0 rounded-full bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 text-white shadow-[0_0_20px_rgba(37,99,235,0.6)] transition-all hover:scale-105"
                 onMouseEnter={() => playSound("hover")}
               >
-                <Send className="w-4 h-4 translate-x-px -translate-y-px" />
+                <Send className="w-5 h-5 ml-1" />
               </Button>
             </form>
           </motion.div>
