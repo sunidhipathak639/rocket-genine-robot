@@ -14,8 +14,15 @@ export function ConversionStrip() {
       <div className="absolute top-1/2 left-1/4 -translate-y-1/2 w-96 h-96 bg-primary/20 blur-[120px] rounded-full pointer-events-none mix-blend-screen" />
       <div className="absolute top-1/2 right-1/4 -translate-y-1/2 w-96 h-96 bg-purple-500/10 blur-[120px] rounded-full pointer-events-none mix-blend-screen" />
 
-      {/* Grid Pattern */}
-      <div className="absolute inset-0 bg-[url('/grid.svg')] bg-center [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))] opacity-10" />
+      {/* Grid Pattern with CSS */}
+      <div
+        className="absolute inset-0 [mask-image:linear-gradient(180deg,white,rgba(10,12,14,0))] opacity-[0.03] pointer-events-none"
+        style={{
+          backgroundImage:
+            "radial-gradient(circle at 1.5px 1.5px, white 1px, transparent 0)",
+          backgroundSize: "24px 24px",
+        }}
+      />
 
       <div className="container mx-auto px-6 md:px-12 relative z-10">
         <motion.div

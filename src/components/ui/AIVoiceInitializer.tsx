@@ -1,42 +1,36 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useCallback } from "react";
 import { useAIVoice } from "@/hooks/useAIVoice";
 
 export function AIVoiceInitializer() {
   const { speakWelcome, hasSpoken } = useAIVoice();
 
+  const handleInteraction = useCallback(async () => {
+    if (!hasSpoken) {
+      await speakWelcome();
+    }
+  }, [hasSpoken, speakWelcome]);
+
   useEffect(() => {
     if (hasSpoken) return;
 
-    // Use a simpler approach: any interaction starts it
-    const events = [
-      "click",
-      "touchstart",
-      "mousedown",
-      "keydown",
-      "scroll",
-      "wheel",
-    ];
-
-    const handleGesture = () => {
-      speakWelcome();
-      // Remove all listeners immediately after first one triggers
-      events.forEach((event) => {
-        window.removeEventListener(event, handleGesture);
-      });
-    };
+    // We listen to the most common user gestures
+    const events = ["click", "touchstart", "mousedown"];
 
     events.forEach((event) => {
-      window.addEventListener(event, handleGesture);
+      window.addEventListener(event, handleInteraction, {
+        passive: true,
+        capture: true,
+      });
     });
 
     return () => {
       events.forEach((event) => {
-        window.removeEventListener(event, handleGesture);
+        window.removeEventListener(event, handleInteraction, { capture: true });
       });
     };
-  }, [speakWelcome, hasSpoken]);
+  }, [handleInteraction, hasSpoken]);
 
   return null;
 }
