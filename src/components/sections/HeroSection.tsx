@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, PlayCircle, Star, ShieldCheck } from "lucide-react";
 import Spline from "@splinetool/react-spline";
@@ -11,10 +11,7 @@ import Image from "next/image";
 export function HeroSection() {
   const containerRef = useRef<HTMLDivElement>(null);
   const [mouseOffset, setMouseOffset] = useState({ x: 0, y: 0 });
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start start", "end start"],
-  });
+  const { playSound } = useSound();
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
@@ -39,29 +36,17 @@ export function HeroSection() {
     };
   }, []);
 
-  const y = useTransform(scrollYProgress, [0, 1], ["0%", "50%"]);
-  const opacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
-  const { playSound } = useSound();
-
   return (
     <section
       ref={containerRef}
       className="relative min-h-[100vh] flex flex-col items-center overflow-x-hidden border-b border-border/10 bg-transparent pt-16 sm:pt-24 md:pt-32 pb-8 sm:pb-12 z-0"
     >
-      <motion.div
-        style={{ y, opacity }}
-        className="container relative mx-auto px-4 sm:px-6 md:px-12 z-10 w-full h-full flex flex-col justify-center lg:justify-center overflow-y-auto overflow-x-hidden pt-8 sm:pt-12 mt-8 sm:mt-12 lg:pt-0 lg:mt-0 no-scrollbar pb-8 sm:pb-16 lg:pb-0"
-      >
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-16 items-center h-auto min-h-min shrink-0 lg:shrink">
+      <div className="container relative mx-auto px-4 sm:px-6 md:px-12 z-10 w-full flex flex-col justify-center lg:justify-center pt-8 sm:pt-12 mt-8 sm:mt-12 lg:pt-0 lg:mt-0 pb-8 sm:pb-16 lg:pb-0">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-16 items-center">
           {/* Left Content Area */}
           <div className="flex flex-col items-center lg:items-start text-center lg:text-left w-full max-w-full md:max-w-2xl mx-auto lg:mx-0 px-4 relative z-20">
             {/* Trust Badge */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-              className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-secondary/30 border border-secondary/50 backdrop-blur-md text-sm font-medium mb-8 shadow-[0_0_15px_rgba(255,255,255,0.05)]"
-            >
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-secondary/30 border border-secondary/50 backdrop-blur-md text-sm font-medium mb-8 shadow-[0_0_15px_rgba(255,255,255,0.05)]">
               <span className="relative flex h-2 w-2">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
@@ -69,60 +54,27 @@ export function HeroSection() {
               <span className="text-foreground/90 glow-text">
                 Accepting Applications: Winter Cohort
               </span>
-            </motion.div>
+            </div>
 
-            {/* Glowing Headline with Typing Effect */}
-            <motion.h1
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.1 }}
-              className="font-heading text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-black tracking-tighter mb-6 relative"
-            >
+            {/* Glowing Headline */}
+            <h1 className="font-heading text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-black tracking-tighter leading-[1.1] mb-6 relative">
               <span className="bg-clip-text text-transparent bg-gradient-to-r from-white via-white/90 to-white/70 drop-shadow-[0_0_30px_rgba(255,255,255,0.3)] inline-block">
-                {"Master AI.".split("").map((char, i) => (
-                  <motion.span
-                    key={`m-${i}`}
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ duration: 0.1, delay: i * 0.05 }}
-                  >
-                    {char}
-                  </motion.span>
-                ))}
+                Master AI.
               </span>
               <br />
               <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-indigo-400 to-purple-400 drop-shadow-[0_0_30px_rgba(99,102,241,0.4)] animate-pulse-slow inline-block whitespace-normal break-words">
-                {"Shape the Future.".split("").map((char, i) => (
-                  <motion.span
-                    key={`s-${i}`}
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ duration: 0.1, delay: 0.5 + i * 0.05 }}
-                  >
-                    {char}
-                  </motion.span>
-                ))}
+                Shape the Future.
               </span>
-            </motion.h1>
+            </h1>
 
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-              className="text-lg md:text-xl text-muted-foreground leading-relaxed mb-8 max-w-xl font-light"
-            >
+            <p className="text-lg md:text-xl text-muted-foreground leading-relaxed mb-8 max-w-xl font-light">
               Join the world&apos;s most elite AI engineering program. Built by
               industry leaders. Designed for ambitious professionals ready to
               build real-world products.
-            </motion.p>
+            </p>
 
             {/* Conversion CTA Group */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.3 }}
-              className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 w-full mt-6"
-            >
+            <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 w-full mt-6">
               <Button
                 size="lg"
                 onMouseEnter={() => playSound("hover")}
@@ -140,15 +92,10 @@ export function HeroSection() {
               >
                 <PlayCircle className="mr-2 w-5 h-5" /> Watch Intro
               </Button>
-            </motion.div>
+            </div>
 
             {/* Social Proof / Conversion Anchors */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.5 }}
-              className="mt-12 flex flex-wrap justify-center lg:justify-start gap-6 lg:gap-10 pt-8 border-t border-border/20 w-full"
-            >
+            <div className="mt-12 flex flex-wrap justify-center lg:justify-start gap-6 lg:gap-10 pt-8 border-t border-border/20 w-full">
               <div className="flex flex-col items-center lg:items-start gap-1">
                 <div className="text-2xl md:text-3xl font-black text-white drop-shadow-[0_0_10px_rgba(255,255,255,0.5)]">
                   84 LPA
@@ -167,7 +114,7 @@ export function HeroSection() {
                   <Star className="w-4 h-4 text-yellow-500" /> Students Trained
                 </div>
               </div>
-            </motion.div>
+            </div>
           </div>
 
           {/* Right Visual Area (3D Robot + FX) */}
@@ -203,15 +150,7 @@ export function HeroSection() {
             </motion.div>
 
             {/* Floating Video Testimonial Preview Component */}
-            <motion.div
-              initial={{ opacity: 0, x: 50, y: 50 }}
-              animate={{ opacity: 1, x: 0, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.6 }}
-              whileHover={{ scale: 1.05 }}
-              onMouseEnter={() => playSound("pop")}
-              onClick={() => playSound("click")}
-              className="absolute -bottom-6 -left-6 md:bottom-10 md:-left-12 bg-black/60 backdrop-blur-xl border border-white/10 p-3 rounded-2xl shadow-2xl flex items-center gap-4 cursor-pointer z-50 w-64 group hover:animate-glitch"
-            >
+            <div className="absolute -bottom-6 -left-6 md:bottom-10 md:-left-12 bg-black/60 backdrop-blur-xl border border-white/10 p-3 rounded-2xl shadow-2xl flex items-center gap-4 cursor-pointer z-50 w-64 group">
               <div className="relative w-12 h-12 rounded-full overflow-hidden shrink-0 border border-white/20">
                 <Image
                   src="/testimonial-1.png"
@@ -232,17 +171,11 @@ export function HeroSection() {
                   &quot;Robot Genie transformed my career path.&quot;
                 </span>
               </div>
-            </motion.div>
+            </div>
           </div>
         </div>
         {/* Mobile Spline Visual */}
-        <motion.div
-          className="block md:hidden relative w-full h-[400px] z-0 mt-8"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.5 }}
-          whileTap={{ scale: 0.95, rotate: 2 }}
-        >
+        <div className="block md:hidden relative w-full h-[400px] z-0 mt-8">
           <motion.div
             animate={{ x: mouseOffset.x, y: mouseOffset.y }}
             transition={{ type: "spring", stiffness: 100, damping: 30 }}
@@ -250,8 +183,8 @@ export function HeroSection() {
           >
             <Spline scene="https://prod.spline.design/9aPp2nOUkM3wqAUO/scene.splinecode" />
           </motion.div>
-        </motion.div>
-      </motion.div>
+        </div>
+      </div>
     </section>
   );
 }

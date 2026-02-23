@@ -10,14 +10,25 @@ export function AIVoiceInitializer() {
     if (hasSpoken) return;
 
     // Use a simpler approach: any interaction starts it
-    const events = ["click", "touchstart", "mousedown", "keydown"];
+    const events = [
+      "click",
+      "touchstart",
+      "mousedown",
+      "keydown",
+      "scroll",
+      "wheel",
+    ];
 
     const handleGesture = () => {
       speakWelcome();
+      // Remove all listeners immediately after first one triggers
+      events.forEach((event) => {
+        window.removeEventListener(event, handleGesture);
+      });
     };
 
     events.forEach((event) => {
-      window.addEventListener(event, handleGesture, { once: true });
+      window.addEventListener(event, handleGesture);
     });
 
     return () => {
