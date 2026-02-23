@@ -4,27 +4,28 @@ import { useEffect } from "react";
 import { useAIVoice } from "@/hooks/useAIVoice";
 
 export function AIVoiceInitializer() {
-  const { speakWelcome } = useAIVoice();
+  const { speakWelcome, hasSpoken } = useAIVoice();
 
   useEffect(() => {
-    const triggerAudio = () => {
+    if (hasSpoken) return;
+
+    // Use a simpler approach: any interaction starts it
+    const events = ["click", "touchstart", "mousedown", "keydown"];
+
+    const handleGesture = () => {
       speakWelcome();
-      // Remove listeners after first interaction
-      window.removeEventListener("click", triggerAudio);
-      window.removeEventListener("touchstart", triggerAudio);
-      window.removeEventListener("keydown", triggerAudio);
     };
 
-    window.addEventListener("click", triggerAudio, { once: true });
-    window.addEventListener("touchstart", triggerAudio, { once: true });
-    window.addEventListener("keydown", triggerAudio, { once: true });
+    events.forEach((event) => {
+      window.addEventListener(event, handleGesture, { once: true });
+    });
 
     return () => {
-      window.removeEventListener("click", triggerAudio);
-      window.removeEventListener("touchstart", triggerAudio);
-      window.removeEventListener("keydown", triggerAudio);
+      events.forEach((event) => {
+        window.removeEventListener(event, handleGesture);
+      });
     };
-  }, [speakWelcome]);
+  }, [speakWelcome, hasSpoken]);
 
   return null;
 }

@@ -18,14 +18,25 @@ export function HeroSection() {
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
-      // Calculate offset relative to center of screen for subtle parallax
       const x = (e.clientX / window.innerWidth - 0.5) * 20;
       const y = (e.clientY / window.innerHeight - 0.5) * 20;
       setMouseOffset({ x, y });
     };
 
+    const handleTouchMove = (e: TouchEvent) => {
+      if (e.touches[0]) {
+        const x = (e.touches[0].clientX / window.innerWidth - 0.5) * 30;
+        const y = (e.touches[0].clientY / window.innerHeight - 0.5) * 30;
+        setMouseOffset({ x, y });
+      }
+    };
+
     window.addEventListener("mousemove", handleMouseMove);
-    return () => window.removeEventListener("mousemove", handleMouseMove);
+    window.addEventListener("touchmove", handleTouchMove, { passive: true });
+    return () => {
+      window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("touchmove", handleTouchMove);
+    };
   }, []);
 
   const y = useTransform(scrollYProgress, [0, 1], ["0%", "50%"]);
@@ -42,16 +53,6 @@ export function HeroSection() {
         className="container relative mx-auto px-4 sm:px-6 md:px-12 z-10 w-full h-full flex flex-col justify-center lg:justify-center overflow-y-auto overflow-x-hidden pt-8 sm:pt-12 mt-8 sm:mt-12 lg:pt-0 lg:mt-0 no-scrollbar pb-8 sm:pb-16 lg:pb-0"
       >
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-16 items-center h-auto min-h-min shrink-0 lg:shrink">
-          {/* Mobile Spline Background */}
-          <motion.div
-            className="block md:hidden absolute inset-0 w-full h-full z-0"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.5 }}
-          >
-            <div className="absolute inset-0 bg-black/50 z-10" />
-            <Spline scene="https://prod.spline.design/9aPp2nOUkM3wqAUO/scene.splinecode" />
-          </motion.div>
           {/* Left Content Area */}
           <div className="flex flex-col items-center lg:items-start text-center lg:text-left w-full max-w-full md:max-w-2xl mx-auto lg:mx-0 px-4 relative z-20">
             {/* Trust Badge */}
@@ -234,6 +235,22 @@ export function HeroSection() {
             </motion.div>
           </div>
         </div>
+        {/* Mobile Spline Visual */}
+        <motion.div
+          className="block md:hidden relative w-full h-[400px] z-0 mt-8"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5 }}
+          whileTap={{ scale: 0.95, rotate: 2 }}
+        >
+          <motion.div
+            animate={{ x: mouseOffset.x, y: mouseOffset.y }}
+            transition={{ type: "spring", stiffness: 100, damping: 30 }}
+            className="w-full h-full"
+          >
+            <Spline scene="https://prod.spline.design/9aPp2nOUkM3wqAUO/scene.splinecode" />
+          </motion.div>
+        </motion.div>
       </motion.div>
     </section>
   );
