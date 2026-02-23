@@ -35,15 +35,25 @@ export function HeroSection() {
   return (
     <section
       ref={containerRef}
-      className="relative min-h-[100vh] flex items-center overflow-hidden border-b border-border/10 bg-transparent pt-32 md:pt-24 pb-16 z-0"
+      className="relative min-h-[100vh] flex flex-col items-center overflow-x-hidden border-b border-border/10 bg-transparent pt-16 sm:pt-24 md:pt-32 pb-8 sm:pb-12 z-0"
     >
       <motion.div
         style={{ y, opacity }}
-        className="container relative mx-auto px-6 md:px-12 z-10 w-full h-full flex flex-col justify-center lg:justify-center overflow-y-auto overflow-x-hidden pt-12 mt-12 lg:pt-0 lg:mt-0 no-scrollbar pb-16 lg:pb-0"
+        className="container relative mx-auto px-4 sm:px-6 md:px-12 z-10 w-full h-full flex flex-col justify-center lg:justify-center overflow-y-auto overflow-x-hidden pt-8 sm:pt-12 mt-8 sm:mt-12 lg:pt-0 lg:mt-0 no-scrollbar pb-8 sm:pb-16 lg:pb-0"
       >
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center h-auto min-h-min shrink-0 lg:shrink">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-16 items-center h-auto min-h-min shrink-0 lg:shrink">
+          {/* Mobile Spline Background */}
+          <motion.div
+            className="block md:hidden absolute inset-0 w-full h-full z-0"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5 }}
+          >
+            <div className="absolute inset-0 bg-black/50 z-10" />
+            <Spline scene="https://prod.spline.design/9aPp2nOUkM3wqAUO/scene.splinecode" />
+          </motion.div>
           {/* Left Content Area */}
-          <div className="flex flex-col items-center lg:items-start text-center lg:text-left max-w-2xl mx-auto lg:mx-0">
+          <div className="flex flex-col items-center lg:items-start text-center lg:text-left w-full max-w-full md:max-w-2xl mx-auto lg:mx-0 px-4 relative z-20">
             {/* Trust Badge */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -80,7 +90,7 @@ export function HeroSection() {
                 ))}
               </span>
               <br />
-              <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-indigo-400 to-purple-400 drop-shadow-[0_0_30px_rgba(99,102,241,0.4)] animate-pulse-slow inline-block">
+              <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-indigo-400 to-purple-400 drop-shadow-[0_0_30px_rgba(99,102,241,0.4)] animate-pulse-slow inline-block whitespace-normal break-words">
                 {"Shape the Future.".split("").map((char, i) => (
                   <motion.span
                     key={`s-${i}`}
@@ -88,7 +98,7 @@ export function HeroSection() {
                     animate={{ opacity: 1 }}
                     transition={{ duration: 0.1, delay: 0.5 + i * 0.05 }}
                   >
-                    {char === " " ? "\u00A0" : char}
+                    {char}
                   </motion.span>
                 ))}
               </span>
@@ -110,7 +120,7 @@ export function HeroSection() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.3 }}
-              className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 w-full"
+              className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 w-full mt-6"
             >
               <Button
                 size="lg"
@@ -160,7 +170,7 @@ export function HeroSection() {
           </div>
 
           {/* Right Visual Area (3D Robot + FX) */}
-          <div className="relative lg:ml-auto w-full aspect-square xl:h-[650px] xl:w-[650px] flex items-center justify-center z-10 mt-12 lg:mt-0">
+          <div className="relative lg:ml-auto w-full aspect-square sm:h-[300px] sm:w-full xl:h-[650px] xl:w-[650px] hidden md:flex items-center justify-center z-10 mt-8 sm:mt-12 lg:mt-0">
             {/* Energy Aura behind Robot */}
             <div className="absolute inset-0 bg-primary/20 blur-[100px] rounded-full mix-blend-screen animate-pulse-slow" />
             <div
