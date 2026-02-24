@@ -11,7 +11,16 @@ import {
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Clock, BookOpen, ArrowRight } from "lucide-react";
+import {
+  IdeaMotion,
+  SettingsMotion,
+  MagicWandMotion,
+  DashboardMotion,
+  ImageSearchMotion,
+  LaunchMotion,
+  ArrowRightMotion,
+} from "@carbon/icons-motion";
+import { Clock, BookOpen } from "lucide-react";
 import React, { useRef, useState } from "react";
 import { useSound } from "@/hooks/useSound";
 
@@ -79,6 +88,7 @@ export function CoursesSection() {
       level: "Beginner",
       modules: 12,
       tag: "Most Popular",
+      icon: IdeaMotion,
     },
     {
       title: "Machine Learning Engineering",
@@ -87,6 +97,7 @@ export function CoursesSection() {
       duration: "16 Weeks",
       level: "Intermediate",
       modules: 24,
+      icon: SettingsMotion,
     },
     {
       title: "Generative AI Mastery",
@@ -96,6 +107,7 @@ export function CoursesSection() {
       level: "Advanced",
       modules: 18,
       tag: "Trending",
+      icon: MagicWandMotion,
     },
     {
       title: "Data Science AI Specialization",
@@ -104,6 +116,7 @@ export function CoursesSection() {
       duration: "14 Weeks",
       level: "Intermediate",
       modules: 20,
+      icon: DashboardMotion,
     },
     {
       title: "NLP & Computer Vision",
@@ -112,6 +125,7 @@ export function CoursesSection() {
       duration: "12 Weeks",
       level: "Advanced",
       modules: 16,
+      icon: ImageSearchMotion,
     },
     {
       title: "AI Product Management",
@@ -120,6 +134,7 @@ export function CoursesSection() {
       duration: "6 Weeks",
       level: "All Levels",
       modules: 8,
+      icon: LaunchMotion,
     },
   ];
 
@@ -203,9 +218,14 @@ export function CoursesSection() {
                         </Badge>
                       )}
                     </div>
-                    <CardTitle className="text-2xl font-bold text-primary md:text-white group-hover:text-primary transition-colors">
-                      {course.title}
-                    </CardTitle>
+                    <div className="flex items-center gap-4 mb-3">
+                      <div className="p-3 rounded-xl bg-primary text-primary-foreground shadow-[0_0_15px_rgba(59,130,246,0.5)] group-hover:shadow-[0_0_25px_rgba(59,130,246,0.7)] transform scale-110 transition-all duration-300 flex items-center justify-center">
+                        <course.icon size={26} isAnimating={true} />
+                      </div>
+                      <CardTitle className="text-2xl font-bold text-primary md:text-white group-hover:text-primary transition-colors translate-x-2">
+                        {course.title}
+                      </CardTitle>
+                    </div>
                     <CardDescription className="pt-3 text-base leading-relaxed text-muted-foreground/80">
                       {course.description}
                     </CardDescription>
@@ -235,7 +255,11 @@ export function CoursesSection() {
                       <span className="font-semibold text-primary-foreground md:text-foreground group-hover:text-primary-foreground">
                         Explore Course
                       </span>
-                      <ArrowRight className="w-5 h-5 translate-x-1 md:translate-x-0 group-hover:translate-x-1 transition-transform text-primary-foreground md:text-foreground group-hover:text-primary-foreground" />
+                      <ArrowRightMotion
+                        size={24}
+                        isAnimating={true}
+                        className="translate-x-1 md:translate-x-0 group-hover:translate-x-1 transition-transform text-primary-foreground md:text-foreground group-hover:text-primary-foreground"
+                      />
                     </Button>
                   </CardFooter>
                 </Card>

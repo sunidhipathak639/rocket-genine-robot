@@ -7,6 +7,8 @@ import Spline from "@splinetool/react-spline";
 import { useRef, useState, useEffect } from "react";
 import { useSound } from "@/hooks/useSound";
 import Image from "next/image";
+import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
 
 export function HeroSection() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -16,12 +18,32 @@ export function HeroSection() {
   const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
-    setIsMounted(true);
-    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    const frame = requestAnimationFrame(() => setIsMounted(true));
+    return () => cancelAnimationFrame(frame);
+  }, []);
+
+  useEffect(() => {
+    if (!isMounted) return;
+
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
     checkMobile();
     window.addEventListener("resize", checkMobile);
     return () => window.removeEventListener("resize", checkMobile);
-  }, []);
+  }, [isMounted]);
+
+  useGSAP(
+    () => {
+      if (isMobile && isMounted) {
+        gsap.to("#hero-title", { opacity: 1, y: 0, delay: 0.5, duration: 1 });
+        gsap.to("#hero-sub", { opacity: 1, y: 0, delay: 0.9, duration: 1 });
+        gsap.to("#hero-btn", { opacity: 1, y: 0, delay: 1.3, duration: 1 });
+      }
+    },
+    { dependencies: [isMobile, isMounted], scope: containerRef },
+  );
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
@@ -48,10 +70,53 @@ export function HeroSection() {
 
   if (!isMounted) return <div className="min-h-screen bg-transparent" />;
 
+  if (isMobile) {
+    return (
+      <section
+        ref={containerRef}
+        className="sticky top-0 w-full h-[100svh] bg-black z-0 overflow-hidden"
+        style={{ touchAction: "pan-y" }}
+      >
+        {/* Text overlay — pointer-events-none so Spline gets mouse events */}
+        <div className="absolute inset-0 z-10 pointer-events-none flex flex-col items-center justify-end px-6 pb-[22svh] text-center">
+          <h1
+            id="hero-title"
+            className="text-white font-body text-3xl md:text-5xl lg:text-6xl opacity-0 translate-y-8 max-w-3xl leading-tight font-bold tracking-tight"
+          >
+            Welcome to the Future of Intelligent Automation
+          </h1>
+
+          <p
+            id="hero-sub"
+            className="text-gray-400 text-sm md:text-lg mt-4 opacity-0 translate-y-8 font-light"
+          >
+            Digital Marketing &nbsp;|&nbsp; Data Science &nbsp;|&nbsp; Finance
+            &nbsp;|&nbsp; HR &nbsp;|&nbsp; AI
+          </p>
+
+          {/* Re-enable pointer events only for the button */}
+          <a
+            id="hero-btn"
+            href="#highlights"
+            className="mt-10 opacity-0 translate-y-8 pointer-events-auto h-14 px-8 inline-flex items-center justify-center rounded-full bg-white text-black text-lg font-bold shadow-[0_0_20px_rgba(255,255,255,0.3)]"
+          >
+            Book Free Counselling
+          </a>
+        </div>
+
+        {/* Spline 3D scene — pointer-events-auto lets the robot head track touches on mobile. 
+            Native scrolling still works because of touch-action: pan-y in index.css */}
+        <div className="absolute inset-0 z-0 pointer-events-auto">
+          <Spline scene="https://prod.spline.design/9aPp2nOUkM3wqAUO/scene.splinecode" />
+        </div>
+      </section>
+    );
+  }
+
   return (
     <section
       ref={containerRef}
-      className="relative min-h-[100vh] flex flex-col items-center overflow-x-hidden border-b border-border/10 bg-transparent pt-16 sm:pt-24 md:pt-32 pb-8 sm:pb-12 z-0"
+      className="sticky top-0 min-h-[100vh] flex flex-col items-center overflow-x-hidden border-b border-border/10 bg-transparent pt-16 sm:pt-24 md:pt-32 pb-8 sm:pb-12 z-0"
     >
       <div className="container relative mx-auto px-4 sm:px-6 md:px-12 z-10 w-full flex flex-col justify-center lg:justify-center pt-8 sm:pt-12 mt-8 sm:mt-12 lg:pt-0 lg:mt-0 pb-8 sm:pb-16 lg:pb-0">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-16 items-center">
@@ -129,79 +194,65 @@ export function HeroSection() {
             </div>
           </div>
 
-          {!isMobile && (
-            <div className="relative lg:ml-auto w-full aspect-square sm:h-[300px] sm:w-full xl:h-[650px] xl:w-[650px] flex items-center justify-center z-10 mt-8 sm:mt-12 lg:mt-0">
-              {/* Energy Aura behind Robot */}
-              <div className="absolute inset-0 bg-primary/20 blur-[100px] rounded-full mix-blend-screen animate-pulse-slow" />
-              <div
-                className="absolute inset-10 bg-purple-500/20 blur-[80px] rounded-full mix-blend-screen animate-pulse-slow"
-                style={{ animationDelay: "1s" }}
-              />
+          <div className="relative lg:ml-auto w-full aspect-square sm:h-[300px] sm:w-full xl:h-[650px] xl:w-[650px] flex items-center justify-center z-10 mt-8 sm:mt-12 lg:mt-0">
+            {/* Energy Aura behind Robot */}
+            <div className="absolute inset-0 bg-primary/20 blur-[100px] rounded-full mix-blend-screen animate-pulse-slow" />
+            <div
+              className="absolute inset-10 bg-purple-500/20 blur-[80px] rounded-full mix-blend-screen animate-pulse-slow"
+              style={{ animationDelay: "1s" }}
+            />
 
-              {/* Breathing Animation Container for 3D */}
+            {/* Breathing Animation Container for 3D */}
+            <motion.div
+              animate={{ y: [0, -15, 0] }}
+              transition={{
+                duration: 4,
+                repeat: Infinity,
+                ease: "easeInOut",
+              }}
+              className="relative w-full h-full pointer-events-auto"
+            >
               <motion.div
-                animate={{ y: [0, -15, 0] }}
-                transition={{
-                  duration: 4,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                }}
-                className="relative w-full h-full pointer-events-auto"
+                animate={{ x: mouseOffset.x, y: mouseOffset.y }}
+                transition={{ type: "spring", stiffness: 100, damping: 30 }}
+                className="w-full h-full"
               >
-                <motion.div
-                  animate={{ x: mouseOffset.x, y: mouseOffset.y }}
-                  transition={{ type: "spring", stiffness: 100, damping: 30 }}
-                  className="w-full h-full"
-                >
-                  <Spline scene="https://prod.spline.design/9aPp2nOUkM3wqAUO/scene.splinecode" />
-                </motion.div>
-
-                {/* Scanline / Light Beam Effect */}
-                <motion.div
-                  className="absolute inset-0 w-full h-1 bg-gradient-to-r from-transparent via-white/50 to-transparent blur-[2px] z-50 pointer-events-none"
-                  animate={{ top: ["0%", "100%", "0%"] }}
-                  transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
-                />
+                <Spline scene="https://prod.spline.design/9aPp2nOUkM3wqAUO/scene.splinecode" />
               </motion.div>
 
-              {/* Video Testimonial Preview */}
-              <div className="absolute -bottom-6 -left-6 md:bottom-10 md:-left-12 bg-black/60 backdrop-blur-xl border border-white/10 p-3 rounded-2xl shadow-2xl flex items-center gap-4 cursor-pointer z-50 w-64 group">
-                <div className="relative w-12 h-12 rounded-full overflow-hidden shrink-0 border border-white/20">
-                  <Image
-                    src="/testimonial-1.png"
-                    alt="Student"
-                    fill
-                    sizes="48px"
-                    className="object-cover grayscale group-hover:grayscale-0 transition-all"
-                  />
-                  <div className="absolute inset-0 bg-primary/20 flex items-center justify-center">
-                    <PlayCircle className="w-5 h-5 text-white drop-shadow-md" />
-                  </div>
-                </div>
-                <div className="flex flex-col">
-                  <span className="text-xs text-green-400 font-semibold mb-0.5">
-                    Placed at Google
-                  </span>
-                  <span className="text-sm text-white font-medium line-clamp-2 leading-tight group-hover:text-primary-foreground transition-colors">
-                    &quot;Robot Genie transformed my career path.&quot;
-                  </span>
+              {/* Scanline / Light Beam Effect */}
+              <motion.div
+                className="absolute inset-0 w-full h-1 bg-gradient-to-r from-transparent via-white/50 to-transparent blur-[2px] z-50 pointer-events-none"
+                animate={{ top: ["0%", "100%", "0%"] }}
+                transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
+              />
+            </motion.div>
+
+            {/* Video Testimonial Preview */}
+            <div className="absolute -bottom-6 -left-6 md:bottom-10 md:-left-12 bg-black/60 backdrop-blur-xl border border-white/10 p-3 rounded-2xl shadow-2xl flex items-center gap-4 cursor-pointer z-50 w-64 group">
+              <div className="relative w-12 h-12 rounded-full overflow-hidden shrink-0 border border-white/20">
+                <Image
+                  src="/testimonial-1.png"
+                  alt="Student"
+                  fill
+                  sizes="48px"
+                  className="object-cover grayscale group-hover:grayscale-0 transition-all"
+                />
+                <div className="absolute inset-0 bg-primary/20 flex items-center justify-center">
+                  <PlayCircle className="w-5 h-5 text-white drop-shadow-md" />
                 </div>
               </div>
+              <div className="flex flex-col">
+                <span className="text-xs text-green-400 font-semibold mb-0.5">
+                  Placed at Google
+                </span>
+                <span className="text-sm text-white font-medium line-clamp-2 leading-tight group-hover:text-primary-foreground transition-colors">
+                  &quot;Robot Genie transformed my career path.&quot;
+                </span>
+              </div>
             </div>
-          )}
-        </div>
-        {/* Mobile Spline Visual */}
-        {isMobile && (
-          <div className="relative w-full h-[400px] z-0 mt-8">
-            <motion.div
-              animate={{ x: mouseOffset.x, y: mouseOffset.y }}
-              transition={{ type: "spring", stiffness: 100, damping: 30 }}
-              className="w-full h-full"
-            >
-              <Spline scene="https://prod.spline.design/9aPp2nOUkM3wqAUO/scene.splinecode" />
-            </motion.div>
           </div>
-        )}
+        </div>
       </div>
     </section>
   );

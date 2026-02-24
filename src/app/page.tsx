@@ -13,15 +13,17 @@ export default function Home() {
   return (
     <div className="flex flex-col min-h-screen">
       <HeroSection />
-      <WhyChooseUsSection />
-      <CoursesSection />
-      <TestimonialsCarousel />
-      <PlacementProofSection />
-      <AwardsGallery />
-      <TrainingEnvSection />
-      <LeadCaptureForm />
-      <FAQSection />
-      <ConversionStrip />
+      <div className="relative z-10 bg-background">
+        <WhyChooseUsSection />
+        <CoursesSection />
+        <TestimonialsCarousel />
+        <PlacementProofSection />
+        <AwardsGallery />
+        <TrainingEnvSection />
+        <LeadCaptureForm />
+        <FAQSection />
+        <ConversionStrip />
+      </div>
     </div>
   );
 }

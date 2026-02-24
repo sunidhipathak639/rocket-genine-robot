@@ -1,30 +1,35 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { BrainCircuit, Trophy, Target, Globe } from "lucide-react";
+import {
+  IdeaMotion,
+  LayersMotion,
+  ChatMotion,
+  GlobeMotion,
+} from "@carbon/icons-motion";
 
 export function WhyChooseUsSection() {
   const features = [
     {
-      icon: BrainCircuit,
+      icon: IdeaMotion,
       title: "Industry-Vetted Curriculum",
       description:
         "Syllabus designed by AI researchers from top tech companies to guarantee relevance.",
     },
     {
-      icon: Trophy,
+      icon: LayersMotion,
       title: "Project-Based Learning",
       description:
         "Build a portfolio of real-world AI applications, from LLMs to computer vision.",
     },
     {
-      icon: Target,
+      icon: ChatMotion,
       title: "1-on-1 Mentorship",
       description:
         "Get personalized guidance from senior AI engineers to accelerate your learning.",
     },
     {
-      icon: Globe,
+      icon: GlobeMotion,
       title: "Global Hiring Network",
       description:
         "Exclusive access to hiring partners actively seeking specialized AI talent.",
@@ -75,8 +80,10 @@ export function WhyChooseUsSection() {
                 variants={itemVariants}
                 className="flex flex-col items-center text-center group"
               >
-                <div className="w-16 h-16 rounded-2xl bg-primary md:bg-secondary flex items-center justify-center mb-6 scale-110 md:scale-100 group-hover:scale-110 group-hover:bg-primary text-primary-foreground md:text-foreground group-hover:text-primary-foreground transition-all duration-300 shadow-sm">
-                  <Icon className="w-8 h-8 text-primary-foreground md:text-foreground group-hover:text-primary-foreground transition-colors" />
+                <div className="w-16 h-16 rounded-2xl bg-primary flex items-center justify-center mb-6 scale-110 shadow-[0_0_20px_rgba(59,130,246,0.2)] overflow-hidden transition-transform duration-300 group-hover:scale-125">
+                  <div className="text-primary-foreground">
+                    <Icon size={32} isAnimating={true} />
+                  </div>
                 </div>
                 <h3 className="text-xl font-semibold mb-3 text-foreground">
                   {feature.title}
