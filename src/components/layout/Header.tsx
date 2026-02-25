@@ -36,8 +36,8 @@ export function Header() {
       <div className="container mx-auto px-6 md:px-12 flex items-center justify-between">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-3 group">
-          <div className="relative w-10 h-10 rounded-xl bg-gradient-to-br from-purple-500 via-blue-500 to-cyan-400 p-[1px] shadow-[0_0_20px_rgba(59,130,246,0.3)] group-hover:scale-110 transition-transform duration-500">
-            <div className="w-full h-full rounded-[11px] bg-[#030712] flex items-center justify-center overflow-hidden p-1.5">
+          <div className="relative w-10 h-10 md:w-12 md:h-12 rounded-xl bg-gradient-to-br from-purple-500 via-blue-500 to-cyan-400 p-[1.5px] shadow-[0_0_20px_rgba(59,130,246,0.3)] group-hover:scale-110 transition-transform duration-500">
+            <div className="w-full h-full rounded-[10px] bg-[#030712] flex items-center justify-center overflow-hidden p-1.5">
               <img
                 src="/rocket-genie-log.png"
                 alt="Robot Genie Logo"
@@ -45,7 +45,7 @@ export function Header() {
               />
             </div>
           </div>
-          <span className="font-black text-2xl tracking-tighter text-white uppercase italic drop-shadow-[0_0_10px_rgba(255,255,255,0.2)]">
+          <span className="font-black text-2xl tracking-tighter text-white uppercase italic drop-shadow-[0_0_10px_rgba(255,255,255,0.2)] transition-all duration-300 group-hover:tracking-normal">
             Robot{" "}
             <span className="bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent">
               Genie
@@ -74,14 +74,14 @@ export function Header() {
           </Button>
 
           <button
-            className="md:hidden p-2 text-white/80 hover:text-white transition-colors"
+            className="md:hidden p-2 text-foreground"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             aria-label="Toggle Menu"
           >
             {mobileMenuOpen ? (
-              <X className="w-8 h-8" />
+              <X className="w-6 h-6" />
             ) : (
-              <Menu className="w-8 h-8" />
+              <Menu className="w-6 h-6" />
             )}
           </button>
         </div>
@@ -91,10 +91,10 @@ export function Header() {
       <AnimatePresence>
         {mobileMenuOpen && (
           <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
-            className="absolute top-full left-0 w-full bg-[#030712]/95 backdrop-blur-2xl border-b border-white/10 overflow-hidden md:hidden"
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            className="absolute top-full left-0 w-full bg-background border-b shadow-lg md:hidden"
           >
             <nav className="flex flex-col p-8 gap-6">
               {navLinks.map((link) => (
