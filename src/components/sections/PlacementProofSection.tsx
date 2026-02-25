@@ -7,7 +7,6 @@ import {
   TrendingUp,
   Building2,
   MapPin,
-  CheckCircle2,
 } from "lucide-react";
 import Image from "next/image";
 import { useEffect, useState, useRef } from "react";
@@ -166,13 +165,14 @@ export function PlacementProofSection() {
     >
       {/* ... (previous code for map and floating offers remains same) */}
       <div className="absolute inset-0 pointer-events-none z-0">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-primary/5 blur-[100px] rounded-full mix-blend-screen animate-pulse-slow" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1000px] h-[500px] bg-blue-500/10 blur-[150px] rounded-full mix-blend-screen opacity-50" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-gradient-to-br from-purple-500/5 via-transparent to-cyan-500/5 opacity-30" />
         <div
-          className="absolute inset-0 opacity-[0.03]"
+          className="absolute inset-0 opacity-[0.05]"
           style={{
             backgroundImage:
               "radial-gradient(circle at 2px 2px, white 1px, transparent 0)",
-            backgroundSize: "32px 32px",
+            backgroundSize: "48px 48px",
           }}
         />
         {floatingOffers.map((offer, idx) => (
@@ -212,18 +212,20 @@ export function PlacementProofSection() {
                   ease: "easeInOut",
                 },
               }}
-              className="flex flex-col gap-0.5 p-2 px-3 rounded-lg bg-white/5 backdrop-blur-md border border-white/10 shadow-[0_0_15px_rgba(255,255,255,0.05)] text-left w-auto whitespace-nowrap"
+              className="flex flex-col gap-0.5 p-3 rounded-xl bg-white/[0.03] backdrop-blur-xl border border-white/10 shadow-[0_0_20px_rgba(59,130,246,0.1)] text-left w-auto whitespace-nowrap overflow-hidden group/offer"
             >
-              <div className="flex items-center gap-1 text-green-400 text-[10px] font-bold uppercase tracking-wider mb-0.5">
-                <CheckCircle2 className="w-3 h-3" /> Offered
+              <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 via-blue-500/5 to-transparent opacity-0 group-hover/offer:opacity-100 transition-opacity duration-500" />
+              <div className="flex items-center gap-1.5 text-cyan-400 text-[10px] font-black uppercase tracking-widest mb-1 relative z-10">
+                <div className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
+                Offered
               </div>
-              <div className="text-white text-sm font-semibold leading-tight">
+              <div className="text-white text-sm font-black leading-tight relative z-10">
                 {offer.company}
               </div>
-              <div className="text-muted-foreground text-[10px] leading-tight">
+              <div className="text-blue-100/40 text-[10px] font-bold leading-tight relative z-10">
                 {offer.role}
               </div>
-              <div className="text-primary text-xs font-bold mt-0.5 leading-tight">
+              <div className="bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent text-xs font-black mt-1 leading-tight relative z-10">
                 {offer.ctc}
               </div>
             </motion.div>
@@ -232,11 +234,22 @@ export function PlacementProofSection() {
       </div>
 
       <div className="container relative mx-auto px-6 md:px-12 z-10">
-        <div className="text-center max-w-2xl mx-auto mb-20 relative">
-          <h2 className="text-4xl md:text-5xl font-black tracking-tight mb-4 text-white drop-shadow-md">
-            Careers That Define The Industry
+        <div className="text-center max-w-3xl mx-auto mb-20 relative space-y-4">
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="inline-block px-4 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/20 text-cyan-400 text-xs font-bold tracking-widest uppercase"
+          >
+            Placement Records
+          </motion.div>
+          <h2 className="text-4xl md:text-5xl font-black tracking-tight text-white leading-tight">
+            Careers That Define The{" "}
+            <span className="bg-gradient-to-r from-purple-400 via-blue-400 to-cyan-400 bg-clip-text text-transparent">
+              AI Industry
+            </span>
           </h2>
-          <p className="text-lg text-muted-foreground/80 font-light">
+          <p className="text-lg text-blue-100/40 font-medium">
             Our alumni are building the next generation of AI products at the
             world&apos;s leading technology companies.
           </p>
@@ -257,19 +270,44 @@ export function PlacementProofSection() {
                   type: "spring",
                 }}
                 onMouseEnter={() => playSound("hover")}
-                className="flex flex-col items-center justify-center p-8 rounded-3xl bg-white/5 border-primary/50 shadow-[0_20px_40px_rgba(59,130,246,0.2)] md:bg-[#0a0a0a]/80 md:border-white/5 md:shadow-[0_4px_30px_rgba(0,0,0,0.5)] md:hover:border-primary/50 md:hover:bg-white/5 transition-all duration-500 group relative overflow-hidden transform-gpu -translate-y-2 md:translate-y-0 md:hover:-translate-y-2 md:hover:shadow-[0_20px_40px_rgba(59,130,246,0.2)]"
+                className="relative group h-full flex flex-col items-center justify-center"
               >
-                <div className="absolute inset-0 bg-gradient-to-tr from-primary/0 via-primary/5 to-transparent opacity-100 md:opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-0" />
-                <div className="absolute -inset-[100%] bg-gradient-to-r from-transparent via-white/10 to-transparent rotate-45 group-hover:translate-x-[200%] transition-transform duration-1000 ease-in-out z-0" />
-                <div className="w-14 h-14 rounded-2xl bg-primary/20 md:bg-white/5 flex items-center justify-center mb-6 inner-shadow scale-110 md:scale-100 group-hover:scale-110 group-hover:bg-primary/20 transition-all duration-500 relative z-10 border border-primary/30 md:border-white/5 group-hover:border-primary/30">
-                  <Icon className="w-7 h-7 text-white md:text-primary drop-shadow-[0_0_8px_rgba(59,130,246,0.6)] group-hover:text-white transition-colors duration-500" />
+                {/* Glassmorphism Card */}
+                <div className="relative w-full h-full p-8 rounded-[32px] bg-white/[0.05] md:bg-white/[0.02] backdrop-blur-xl border border-white/20 md:border-white/10 overflow-hidden transition-all duration-500 flex flex-col items-center text-center -translate-y-2 md:translate-y-0 group-hover:bg-white/[0.05] group-hover:border-white/20 group-hover:-translate-y-2 shadow-2xl md:shadow-none">
+                  {/* Hover Glow Effect */}
+                  <div className="absolute -inset-24 bg-gradient-to-br from-purple-500/10 via-blue-500/10 to-transparent blur-3xl opacity-100 md:opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
+
+                  <motion.div
+                    animate={{ y: [0, -10, 0] }}
+                    transition={{
+                      duration: 4,
+                      repeat: Infinity,
+                      ease: "easeInOut",
+                      delay: index * 0.4,
+                    }}
+                    className="relative shrink-0 mb-6 z-10"
+                  >
+                    {/* Neon Glow - Permanent */}
+                    <div className="absolute -inset-4 bg-blue-500/40 blur-2xl rounded-full opacity-100" />
+                    <div className="relative w-16 h-16 rounded-2xl bg-gradient-to-br from-purple-500 via-blue-500 to-cyan-400 p-[1px] shadow-[0_0_30px_rgba(59,130,246,0.6)]">
+                      <div className="w-full h-full rounded-[15px] bg-gradient-to-br from-white/20 to-white/5 backdrop-blur-2xl flex items-center justify-center overflow-hidden">
+                        {/* Dynamic inner shine */}
+                        <div className="absolute inset-0 bg-gradient-to-br from-white/30 via-transparent to-transparent opacity-60" />
+                        <Icon className="w-8 h-8 text-white drop-shadow-[0_0_20px_rgba(255,255,255,1)] relative z-10 brightness-200 contrast-125" />
+                      </div>
+                    </div>
+                  </motion.div>
+
+                  <h3 className="text-4xl md:text-5xl font-black tracking-tighter mb-2 bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent drop-shadow-md relative z-10">
+                    <AnimatedCounter value={stat.value} suffix={stat.suffix} />
+                  </h3>
+                  <p className="text-xs font-black text-blue-100/60 uppercase tracking-widest mt-1 relative z-10 group-hover:text-white transition-colors duration-300">
+                    {stat.label}
+                  </p>
+
+                  {/* Corner Accent */}
+                  <div className="absolute top-0 right-0 w-16 h-16 bg-gradient-to-bl from-white/5 to-transparent rounded-bl-3xl pointer-events-none" />
                 </div>
-                <h3 className="text-4xl md:text-5xl font-black tracking-tighter mb-2 text-primary md:text-white drop-shadow-md relative z-10 group-hover:text-primary transition-colors duration-300">
-                  <AnimatedCounter value={stat.value} suffix={stat.suffix} />
-                </h3>
-                <p className="text-sm font-semibold text-foreground md:text-muted-foreground uppercase tracking-widest mt-1 relative z-10 group-hover:text-foreground transition-colors duration-300">
-                  {stat.label}
-                </p>
               </motion.div>
             );
           })}
@@ -282,8 +320,9 @@ export function PlacementProofSection() {
         <div className="container relative mx-auto px-6 md:px-12">
           <div className="flex flex-col lg:flex-row items-center gap-12">
             <div className="flex-1 text-center lg:text-left min-h-[300px] flex flex-col justify-center">
-              <p className="text-sm font-bold text-primary uppercase tracking-widest mb-4 flex justify-center lg:justify-start items-center gap-2">
-                <MapPin className="w-4 h-4" /> Global Success Feed
+              <p className="text-sm font-black text-cyan-400 uppercase tracking-widest mb-4 flex justify-center lg:justify-start items-center gap-2">
+                <MapPin className="w-4 h-4 text-purple-400" /> Global Success
+                Feed
               </p>
 
               <div className="relative overflow-hidden">
@@ -294,18 +333,18 @@ export function PlacementProofSection() {
                   exit={{ opacity: 0, x: -20 }}
                   transition={{ duration: 0.5, ease: "easeInOut" }}
                 >
-                  <div className="mb-2">
-                    <span className="bg-primary/20 text-primary text-[10px] font-bold uppercase px-2 py-1 rounded">
+                  <div className="mb-4">
+                    <span className="bg-gradient-to-r from-purple-500 to-blue-500 text-white text-[10px] font-black uppercase px-3 py-1 rounded-full shadow-lg shadow-purple-500/20">
                       {currentStory.tag}
                     </span>
                   </div>
-                  <h3 className="text-3xl md:text-4xl font-bold text-white mb-2 leading-tight">
+                  <h3 className="text-4xl md:text-5xl font-black text-white mb-2 leading-tight tracking-tighter">
                     {currentStory.name}
                   </h3>
-                  <p className="text-xl text-primary font-semibold mb-4">
+                  <p className="text-xl bg-gradient-to-r from-purple-400 to-cyan-400 bg-clip-text text-transparent font-black mb-4">
                     {currentStory.role} @ {currentStory.company}
                   </p>
-                  <p className="text-lg text-muted-foreground/80 mb-8 max-w-xl">
+                  <p className="text-lg text-blue-100/40 mb-8 max-w-xl font-medium">
                     Successfully transitioned into top-tier tech after our
                     intensive AI training program.
                   </p>
@@ -334,7 +373,7 @@ export function PlacementProofSection() {
             </div>
 
             <div className="flex-1 relative w-full group">
-              <div className="absolute -inset-1 bg-gradient-to-r from-blue-500 to-purple-600 rounded-2xl blur opacity-25 group-hover:opacity-50 transition duration-500" />
+              <div className="absolute -inset-1 bg-gradient-to-r from-purple-600 via-blue-500 to-cyan-500 rounded-2xl blur opacity-30 group-hover:opacity-60 transition duration-500" />
               <div className="relative aspect-[16/10] w-full overflow-hidden rounded-2xl border border-white/10 shadow-2xl bg-black">
                 <motion.div
                   key={currentIndex}
@@ -356,7 +395,7 @@ export function PlacementProofSection() {
                   <div className="absolute inset-0 flex items-center justify-center p-8">
                     <div className="text-center">
                       <div className="relative w-28 h-28 mx-auto mb-6">
-                        <div className="absolute -inset-2 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full blur-lg opacity-60 animate-pulse" />
+                        <div className="absolute -inset-2 bg-gradient-to-r from-purple-500 via-blue-500 to-cyan-400 rounded-full blur-lg opacity-80 animate-pulse" />
                         <div className="relative w-full h-full rounded-full border-2 border-white/30 overflow-hidden shadow-2xl">
                           <Image
                             src={currentStory.image}
@@ -366,9 +405,9 @@ export function PlacementProofSection() {
                           />
                         </div>
                       </div>
-                      <div className="inline-flex items-center gap-2 bg-primary/10 backdrop-blur-md px-4 py-2 rounded-full border border-primary/20">
-                        <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
-                        <span className="text-xs text-primary font-bold uppercase tracking-wider">
+                      <div className="inline-flex items-center gap-2 bg-white/5 backdrop-blur-md px-4 py-2 rounded-full border border-white/10 shadow-xl">
+                        <div className="w-2 h-2 bg-cyan-400 rounded-full animate-pulse shadow-[0_0_8px_rgba(34,211,238,0.8)]" />
+                        <span className="text-[10px] text-white font-black uppercase tracking-widest">
                           Verified Success
                         </span>
                       </div>
@@ -376,8 +415,7 @@ export function PlacementProofSection() {
                   </div>
                 </motion.div>
 
-                <div className="absolute bottom-4 left-4 flex items-center gap-2 bg-black/60 backdrop-blur-md px-3 py-1.5 rounded-lg border border-white/10">
-                </div>
+                <div className="absolute bottom-4 left-4 flex items-center gap-2 bg-black/60 backdrop-blur-md px-3 py-1.5 rounded-lg border border-white/10"></div>
               </div>
             </div>
           </div>

@@ -38,47 +38,69 @@ export function FAQSection() {
   ];
 
   return (
-    <section id="faq" className="py-24 bg-background">
-      <div className="container mx-auto px-6 md:px-12">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
-          <div className="lg:col-span-4">
-            <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-4 text-foreground">
-              Frequently Asked Questions
-            </h2>
-            <p className="text-lg text-muted-foreground mb-6">
-              Everything you need to know about the curriculum, admissions, and
-              careers.
-            </p>
-            <p className="text-sm text-muted-foreground">
-              Can't find the answer you're looking for? Reach out to our
-              admissions team at{" "}
-              <a
-                href="mailto:admissions@robotgenie.ai"
-                className="text-foreground font-medium underline"
+    <section id="faq" className="py-24 relative overflow-hidden bg-[#030712]">
+      {/* Background decoration */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-blue-500/5 blur-[120px] rounded-full opacity-50" />
+        <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCI+CjxwYXRoIGQ9Ik0gNDAgMCBMIDAgMCBMIDAgNDAiIGZpbGw9Im5vbmUiIHN0cm9rZT0icmdiYSgyNTUsMjU1LDI1NSwwLjA1KSIgc3Ryb2tlLXdpZHRoPSIxIi8+Cjwvc3ZnPg==')] opacity-20" />
+      </div>
+
+      <div className="container mx-auto px-6 md:px-12 relative z-10">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-16">
+          <div className="lg:col-span-5 space-y-6">
+            <div className="space-y-4">
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                className="inline-block px-4 py-1.5 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 text-xs font-black tracking-widest uppercase"
               >
-                admissions@robotgenie.ai
-              </a>
-            </p>
+                Information Hub
+              </motion.div>
+              <h2 className="text-4xl md:text-5xl font-black tracking-tight text-white leading-tight">
+                Frequently{" "}
+                <span className="bg-gradient-to-r from-purple-400 via-blue-400 to-cyan-400 bg-clip-text text-transparent">
+                  Asked Questions
+                </span>
+              </h2>
+              <p className="text-lg text-blue-100/40 font-medium">
+                Everything you need to know about the curriculum, admissions,
+                and careers.
+              </p>
+            </div>
+
+            <div className="p-6 rounded-3xl bg-white/[0.03] border border-white/10 backdrop-blur-xl">
+              <p className="text-sm text-blue-100/60 font-medium leading-relaxed">
+                Can&apos;t find the answer you&apos;re looking for? Reach out to
+                our admissions team at{" "}
+                <a
+                  href="mailto:admissions@robotgenie.ai"
+                  className="text-white font-black underline decoration-cyan-500/50 hover:decoration-cyan-500 transition-all"
+                >
+                  admissions@robotgenie.ai
+                </a>
+              </p>
+            </div>
           </div>
 
           <motion.div
-            className="lg:col-span-8"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            className="lg:col-span-7"
+            initial={{ opacity: 0, x: 20 }}
+            whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, margin: "-50px" }}
             transition={{ duration: 0.6 }}
           >
-            <Accordion type="single" collapsible className="w-full">
+            <Accordion type="single" collapsible className="w-full space-y-4">
               {faqs.map((faq, index) => (
                 <AccordionItem
                   key={index}
                   value={`item-${index}`}
-                  className="border-b border-border/50 py-2"
+                  className="border-0 px-6 rounded-2xl bg-white/[0.02] border border-white/5 hover:border-white/10 transition-all data-[state=open]:bg-white/[0.05] data-[state=open]:border-purple-500/30 shadow-xl overflow-hidden"
                 >
-                  <AccordionTrigger className="text-left text-lg font-medium hover:no-underline hover:text-primary transition-colors">
+                  <AccordionTrigger className="text-left text-lg font-black text-white hover:no-underline hover:text-cyan-400 transition-colors py-5 tracking-tight">
                     {faq.question}
                   </AccordionTrigger>
-                  <AccordionContent className="text-muted-foreground text-base leading-relaxed">
+                  <AccordionContent className="text-blue-100/40 text-base font-medium leading-relaxed pb-6">
                     {faq.answer}
                   </AccordionContent>
                 </AccordionItem>
