@@ -56,15 +56,61 @@ export function PlacementProofSection() {
   ];
 
   // Actual generated abstract tech logos
-  const logos = [
-    "/logo-1.png",
-    "/logo-2.png",
-    "/logo-3.png",
-    "/logo-4.png",
-    "/logo-5.png",
-    "/logo-1.png",
-    "/logo-2.png",
-    "/logo-3.png",
+  const successStories = [
+    {
+      name: "Arjun Sharma",
+      role: "AI Engineer",
+      company: "Google",
+      package: "45 LPA",
+      hike: "150%",
+      tag: "Lead Role",
+      image: "/alumni-1.png",
+    },
+    {
+      name: "Priya Patel",
+      role: "ML Researcher",
+      company: "Microsoft",
+      package: "38 LPA",
+      hike: "120%",
+      tag: "Research",
+      image: "/alumni-2.png",
+    },
+    {
+      name: "Rahul Verma",
+      role: "Data Scientist",
+      company: "Amazon",
+      package: "42 LPA",
+      hike: "180%",
+      tag: "Big Data",
+      image: "/t-james.png",
+    },
+    {
+      name: "Sneha Reddy",
+      role: "NLP Architect",
+      company: "OpenAI",
+      package: "52 LPA",
+      hike: "210%",
+      tag: "Gen AI",
+      image: "/t-elena.png",
+    },
+    {
+      name: "Vikram Singh",
+      role: "CV Expert",
+      company: "Tesla",
+      package: "48 LPA",
+      hike: "140%",
+      tag: "Autopilot",
+      image: "/t-david.png",
+    },
+    {
+      name: "Ananya Das",
+      role: "AI Product Lead",
+      company: "Adobe",
+      package: "35 LPA",
+      hike: "115%",
+      tag: "Product",
+      image: "/t-priya.png",
+    },
   ];
 
   const floatingOffers = [
@@ -102,16 +148,25 @@ export function PlacementProofSection() {
     },
   ];
 
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentIndex((prev) => (prev + 1) % successStories.length);
+    }, 5000);
+    return () => clearInterval(timer);
+  }, [successStories.length]);
+
+  const currentStory = successStories[currentIndex];
+
   return (
     <section
       id="placements"
       className="relative py-32 border-y border-border/10 bg-transparent overflow-hidden"
     >
-      {/* India Placement Map Accent (Abstracted using radial fog and floating pins) */}
+      {/* ... (previous code for map and floating offers remains same) */}
       <div className="absolute inset-0 pointer-events-none z-0">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-primary/5 blur-[100px] rounded-full mix-blend-screen animate-pulse-slow" />
-
-        {/* Subtle dot matrix background to feel like a global/tech map */}
         <div
           className="absolute inset-0 opacity-[0.03]"
           style={{
@@ -120,8 +175,6 @@ export function PlacementProofSection() {
             backgroundSize: "32px 32px",
           }}
         />
-
-        {/* Floating Offer Letter Popups (Cinematic effect in background) */}
         {floatingOffers.map((offer, idx) => (
           <motion.div
             key={idx}
@@ -189,7 +242,6 @@ export function PlacementProofSection() {
           </p>
         </div>
 
-        {/* Animated Stats Row */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8 mb-24 text-center relative z-20">
           {stats.map((stat, index) => {
             const Icon = stat.icon;
@@ -207,10 +259,8 @@ export function PlacementProofSection() {
                 onMouseEnter={() => playSound("hover")}
                 className="flex flex-col items-center justify-center p-8 rounded-3xl bg-white/5 border-primary/50 shadow-[0_20px_40px_rgba(59,130,246,0.2)] md:bg-[#0a0a0a]/80 md:border-white/5 md:shadow-[0_4px_30px_rgba(0,0,0,0.5)] md:hover:border-primary/50 md:hover:bg-white/5 transition-all duration-500 group relative overflow-hidden transform-gpu -translate-y-2 md:translate-y-0 md:hover:-translate-y-2 md:hover:shadow-[0_20px_40px_rgba(59,130,246,0.2)]"
               >
-                {/* Holographic sweep effect on hover */}
                 <div className="absolute inset-0 bg-gradient-to-tr from-primary/0 via-primary/5 to-transparent opacity-100 md:opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-0" />
                 <div className="absolute -inset-[100%] bg-gradient-to-r from-transparent via-white/10 to-transparent rotate-45 group-hover:translate-x-[200%] transition-transform duration-1000 ease-in-out z-0" />
-
                 <div className="w-14 h-14 rounded-2xl bg-primary/20 md:bg-white/5 flex items-center justify-center mb-6 inner-shadow scale-110 md:scale-100 group-hover:scale-110 group-hover:bg-primary/20 transition-all duration-500 relative z-10 border border-primary/30 md:border-white/5 group-hover:border-primary/30">
                   <Icon className="w-7 h-7 text-white md:text-primary drop-shadow-[0_0_8px_rgba(59,130,246,0.6)] group-hover:text-white transition-colors duration-500" />
                 </div>
@@ -226,48 +276,111 @@ export function PlacementProofSection() {
         </div>
       </div>
 
-      {/* Infinite Scrolling Company Logos */}
-      <div className="w-full overflow-hidden bg-black/40 backdrop-blur-md py-12 border-y border-white/5 flex flex-col items-center relative z-20">
-        <p className="text-sm font-bold text-muted-foreground uppercase tracking-widest mb-10 flex items-center gap-2">
-          <MapPin className="w-4 h-4 text-primary" /> Hiring Partners Across
-          India & Global Hubs
-        </p>
+      <div className="w-full relative bg-black/40 backdrop-blur-md py-16 border-y border-white/5 flex flex-col items-center z-20 overflow-hidden">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] bg-primary/10 blur-[120px] rounded-full" />
 
-        <div className="relative w-full flex overflow-x-hidden">
-          {/* Edge fades */}
-          <div className="absolute inset-y-0 left-0 w-32 md:w-64 bg-gradient-to-r from-[#030712] to-transparent z-10" />
-          <div className="absolute inset-y-0 right-0 w-32 md:w-64 bg-gradient-to-l from-[#030712] to-transparent z-10" />
+        <div className="container relative mx-auto px-6 md:px-12">
+          <div className="flex flex-col lg:flex-row items-center gap-12">
+            <div className="flex-1 text-center lg:text-left min-h-[300px] flex flex-col justify-center">
+              <p className="text-sm font-bold text-primary uppercase tracking-widest mb-4 flex justify-center lg:justify-start items-center gap-2">
+                <MapPin className="w-4 h-4" /> Global Success Feed
+              </p>
 
-          <motion.div
-            className="flex gap-16 md:gap-24 items-center whitespace-nowrap min-w-max px-8"
-            animate={{ x: ["0%", "-50%"] }}
-            transition={{
-              x: {
-                repeat: Infinity,
-                repeatType: "loop",
-                duration: 25,
-                ease: "linear",
-              },
-            }}
-          >
-            {/* Map twice to create seamless loop */}
-            {[...logos, ...logos].map((logo, index) => (
-              <div
-                key={index}
-                className="flex items-center justify-center opacity-100 md:opacity-50 md:hover:opacity-100 transition-all duration-500 grayscale-0 md:grayscale md:hover:grayscale-0 scale-110 md:scale-100 md:hover:scale-110 drop-shadow-[0_0_20px_rgba(255,255,255,0.3)] md:drop-shadow-[0_0_15px_rgba(255,255,255,0.1)] md:hover:drop-shadow-[0_0_20px_rgba(255,255,255,0.3)]"
-              >
-                <div className="relative h-14 w-36 flex justify-center items-center">
-                  {/* Using invert to make the black logos white */}
+              <div className="relative overflow-hidden">
+                <motion.div
+                  key={currentIndex}
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -20 }}
+                  transition={{ duration: 0.5, ease: "easeInOut" }}
+                >
+                  <div className="mb-2">
+                    <span className="bg-primary/20 text-primary text-[10px] font-bold uppercase px-2 py-1 rounded">
+                      {currentStory.tag}
+                    </span>
+                  </div>
+                  <h3 className="text-3xl md:text-4xl font-bold text-white mb-2 leading-tight">
+                    {currentStory.name}
+                  </h3>
+                  <p className="text-xl text-primary font-semibold mb-4">
+                    {currentStory.role} @ {currentStory.company}
+                  </p>
+                  <p className="text-lg text-muted-foreground/80 mb-8 max-w-xl">
+                    Successfully transitioned into top-tier tech after our
+                    intensive AI training program.
+                  </p>
+
+                  <div className="flex flex-wrap justify-center lg:justify-start gap-8">
+                    <div className="flex flex-col">
+                      <span className="text-3xl font-black text-white">
+                        {currentStory.package}
+                      </span>
+                      <span className="text-xs text-muted-foreground uppercase tracking-wider">
+                        Salary Package
+                      </span>
+                    </div>
+                    <div className="w-px h-12 bg-white/10 hidden sm:block" />
+                    <div className="flex flex-col">
+                      <span className="text-3xl font-black text-white">
+                        {currentStory.hike}
+                      </span>
+                      <span className="text-xs text-muted-foreground uppercase tracking-wider">
+                        Salary Hike
+                      </span>
+                    </div>
+                  </div>
+                </motion.div>
+              </div>
+            </div>
+
+            <div className="flex-1 relative w-full group">
+              <div className="absolute -inset-1 bg-gradient-to-r from-blue-500 to-purple-600 rounded-2xl blur opacity-25 group-hover:opacity-50 transition duration-500" />
+              <div className="relative aspect-[16/10] w-full overflow-hidden rounded-2xl border border-white/10 shadow-2xl bg-black">
+                <motion.div
+                  key={currentIndex}
+                  initial={{ opacity: 0, scale: 1.1 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.8 }}
+                  className="w-full h-full"
+                >
                   <Image
-                    src={logo}
-                    alt={`Partner Company`}
+                    src="/alumni-success.png"
+                    alt="Alumni Success Wall"
                     fill
-                    className="object-contain invert mix-blend-screen brightness-200"
+                    className="object-cover opacity-60"
                   />
+                  {/* Digital Grid Overlay */}
+                  <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent" />
+
+                  <div className="absolute inset-0 flex items-center justify-center p-8">
+                    <div className="text-center">
+                      <div className="relative w-28 h-28 mx-auto mb-6">
+                        <div className="absolute -inset-2 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full blur-lg opacity-60 animate-pulse" />
+                        <div className="relative w-full h-full rounded-full border-2 border-white/30 overflow-hidden shadow-2xl">
+                          <Image
+                            src={currentStory.image}
+                            alt={currentStory.name}
+                            fill
+                            className="object-cover"
+                          />
+                        </div>
+                      </div>
+                      <div className="inline-flex items-center gap-2 bg-primary/10 backdrop-blur-md px-4 py-2 rounded-full border border-primary/20">
+                        <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
+                        <span className="text-xs text-primary font-bold uppercase tracking-wider">
+                          Verified Success
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </motion.div>
+
+                <div className="absolute bottom-4 left-4 flex items-center gap-2 bg-black/60 backdrop-blur-md px-3 py-1.5 rounded-lg border border-white/10">
                 </div>
               </div>
-            ))}
-          </motion.div>
+            </div>
+          </div>
         </div>
       </div>
     </section>

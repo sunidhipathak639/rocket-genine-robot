@@ -183,61 +183,67 @@ export function CoursesSection() {
                 className="h-full"
                 onMouseEnter={() => playSound("hover")}
               >
-                {/* Neon Glow Behind Card */}
-                <div className="absolute -inset-0.5 bg-gradient-to-r from-primary/50 to-purple-600/50 rounded-xl blur opacity-100 md:opacity-0 group-hover:opacity-100 transition duration-1000 group-hover:duration-200" />
+                {/* Glow effect that follows mouse/tilt could be added, but for now a static/hover glow */}
+                <div className="absolute -inset-[1px] bg-gradient-to-br from-blue-500/20 via-purple-500/20 to-pink-500/20 rounded-2xl blur-sm opacity-100 transition-opacity duration-500" />
 
                 <Card
-                  className="h-full flex flex-col relative overflow-hidden bg-[#0a0a0a]/80 backdrop-blur-xl border border-white/20 md:border-white/10 group-hover:border-white/20 shadow-2xl transition-colors duration-500 rounded-xl"
-                  style={{ transform: "translateZ(30px)" }} // Pop card content out
+                  className="h-full flex flex-col relative overflow-hidden bg-[#0a0a0b]/90 backdrop-blur-2xl border border-white/10 group-hover:border-white/20 shadow-2xl transition-all duration-500 rounded-2xl"
+                  style={{ transform: "translateZ(30px)" }}
                 >
-                  {/* Animated Gradient Accent Line Top */}
-                  <div className="absolute top-0 left-0 right-0 h-[2px] w-full overflow-hidden opacity-100 md:opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    <div className="w-[50%] h-full bg-gradient-to-r from-transparent via-primary to-transparent absolute -left-[50%] animate-[scan_2s_ease-in-out_infinite]" />
-                  </div>
+                  {/* Subtle top light effect */}
+                  <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent" />
 
-                  <CardHeader>
-                    <div className="flex justify-between items-start mb-4">
+                  <CardHeader className="pb-4">
+                    <div className="flex justify-between items-center mb-6">
                       <Badge
-                        variant={
-                          course.level === "Advanced"
-                            ? "destructive"
-                            : course.level === "Beginner"
-                              ? "secondary"
-                              : "default"
-                        }
-                        className="bg-white/5 hover:bg-white/10 border-white/10 shadow-sm text-white"
+                        variant="outline"
+                        className="bg-white/5 border-white/10 text-white/70 font-medium px-4 py-1 rounded-full text-xs"
                       >
                         {course.level}
                       </Badge>
                       {course.tag && (
-                        <Badge
-                          variant="outline"
-                          className="border-primary/50 text-primary shadow-[0_0_10px_rgba(59,130,246,0.3)] bg-primary/10"
-                        >
-                          {course.tag}
-                        </Badge>
+                        <div className="relative group/tag">
+                          <div className="absolute -inset-0.5 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full blur-[4px] opacity-70 group-hover/tag:opacity-100 transition duration-300" />
+                          <Badge className="relative bg-gradient-to-r from-[#3b82f6] to-[#8b5cf6] text-white border-none px-4 py-1 rounded-full text-xs font-semibold shadow-lg">
+                            {course.tag}
+                          </Badge>
+                        </div>
                       )}
                     </div>
-                    <div className="flex items-center gap-4 mb-3">
-                      <div className="p-3 rounded-xl bg-primary text-primary-foreground shadow-[0_0_15px_rgba(59,130,246,0.5)] group-hover:shadow-[0_0_25px_rgba(59,130,246,0.7)] transform scale-110 transition-all duration-300 flex items-center justify-center">
-                        <course.icon size={26} isAnimating={true} />
+
+                    <div className="flex items-start gap-5 mb-4">
+                      <div className="relative shrink-0">
+                        {/* Icon Background Glow */}
+                        <div className="absolute -inset-2 bg-blue-500/30 blur-xl rounded-full" />
+                        <div className="relative w-16 h-16 rounded-2xl bg-gradient-to-br from-blue-400 via-indigo-400 to-purple-600 p-[1px] shadow-lg shadow-blue-500/20">
+                          <div className="w-full h-full rounded-[15px] bg-gradient-to-br from-blue-100/10 to-purple-100/10 backdrop-blur-md flex items-center justify-center overflow-hidden">
+                            {/* Inner brightness overlay */}
+                            <div className="absolute inset-0 bg-gradient-to-br from-white/20 via-transparent to-transparent opacity-50" />
+                            <course.icon
+                              size={32}
+                              isAnimating={true}
+                              className="text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.5)] relative z-10"
+                            />
+                          </div>
+                        </div>
                       </div>
-                      <CardTitle className="text-2xl font-bold text-primary md:text-white group-hover:text-primary transition-colors translate-x-2">
+                      <CardTitle className="text-2xl font-bold text-white leading-tight pt-1">
                         {course.title}
                       </CardTitle>
                     </div>
-                    <CardDescription className="pt-3 text-base leading-relaxed text-muted-foreground/80">
+                    <CardDescription className="text-base leading-relaxed text-white/50 font-light">
                       {course.description}
                     </CardDescription>
                   </CardHeader>
 
-                  <CardContent className="mt-auto">
-                    <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground/80 mt-2 p-4 bg-white/10 md:bg-white/5 rounded-lg border border-white/5 backdrop-blur-sm shadow-inner group-hover:bg-white/10 transition-colors">
-                      <div className="flex items-center gap-2">
-                        <Clock className="w-4 h-4 text-primary" />
+                  <CardContent className="mt-auto pb-4">
+                    <div className="flex items-center gap-6 text-sm text-white/60 p-4 bg-white/[0.03] rounded-2xl border border-white/5 backdrop-blur-md">
+                      <div className="flex items-center gap-2.5">
+                        <Clock className="w-4 h-4 text-blue-400" />
                         <span className="font-medium">{course.duration}</span>
                       </div>
-                      <div className="flex items-center gap-2">
+                      <div className="h-4 w-px bg-white/10" />
+                      <div className="flex items-center gap-2.5">
                         <BookOpen className="w-4 h-4 text-purple-400" />
                         <span className="font-medium">
                           {course.modules} Modules
@@ -246,21 +252,22 @@ export function CoursesSection() {
                     </div>
                   </CardContent>
 
-                  <CardFooter className="pt-4 pb-6 px-6">
-                    <Button
-                      variant="ghost"
-                      onClick={() => playSound("pop")}
-                      className="w-full justify-between bg-primary md:bg-white/5 group-hover:bg-primary text-primary-foreground md:text-foreground group-hover:text-primary-foreground transition-all duration-300 rounded-lg h-12 text-base border border-transparent shadow-[0_0_20px_rgba(59,130,246,0.4)] md:shadow-none group-hover:shadow-[0_0_20px_rgba(59,130,246,0.4)]"
-                    >
-                      <span className="font-semibold text-primary-foreground md:text-foreground group-hover:text-primary-foreground">
-                        Explore Course
-                      </span>
-                      <ArrowRightMotion
-                        size={24}
-                        isAnimating={true}
-                        className="translate-x-1 md:translate-x-0 group-hover:translate-x-1 transition-transform text-primary-foreground md:text-foreground group-hover:text-primary-foreground"
-                      />
-                    </Button>
+                  <CardFooter className="pt-2 pb-8 px-6">
+                    <div className="relative w-full group/btn">
+                      {/* Button Glow */}
+                      <div className="absolute -inset-0.5 bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl blur opacity-60 group-hover/btn:opacity-100 transition duration-300" />
+                      <Button
+                        onClick={() => playSound("pop")}
+                        className="relative w-full h-14 bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white border-none rounded-xl text-lg font-bold shadow-xl flex justify-between px-6 transition-all duration-300"
+                      >
+                        <span>Explore Course</span>
+                        <ArrowRightMotion
+                          size={24}
+                          isAnimating={true}
+                          className="transition-transform group-hover/btn:translate-x-1"
+                        />
+                      </Button>
+                    </div>
                   </CardFooter>
                 </Card>
               </TiltCard>
