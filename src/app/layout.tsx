@@ -18,6 +18,33 @@ export const metadata: Metadata = {
   title: "Robot Genie | Enterprise AI Education",
   description:
     "Master artificial intelligence with Robot Genie. Transform your career with industry-leading courses and hands-on training.",
+  icons: {
+    icon: "/favicon.ico",
+  },
+  openGraph: {
+    title: "Robot Genie | Enterprise AI Education",
+    description:
+      "Master artificial intelligence with Robot Genie. Transform your career with industry-leading courses and hands-on training.",
+    url: "https://robotgenie.ai",
+    siteName: "Robot Genie",
+    images: [
+      {
+        url: "/og-image.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Robot Genie AI Education",
+      },
+    ],
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Robot Genie | Enterprise AI Education",
+    description:
+      "Master artificial intelligence with Robot Genie. Transform your career with industry-leading courses and hands-on training.",
+    images: ["/og-image.jpg"],
+  },
 };
 
 import { AIParticlesBackground } from "@/components/ui/AIParticlesBackground";
