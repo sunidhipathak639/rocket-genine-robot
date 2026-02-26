@@ -39,6 +39,7 @@ export function HeroSection() {
   const [isMobile, setIsMobile] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
   const [isSplineLoaded, setIsSplineLoaded] = useState(false);
+  const [mobileReadyForSpline, setMobileReadyForSpline] = useState(false);
 
   // Use MotionValues for smooth mouse tracking without re-renders
   const mouseX = useMotionValue(0);
@@ -61,6 +62,13 @@ export function HeroSection() {
       window.removeEventListener("resize", checkMobile);
     };
   }, []);
+
+  // On mobile: show preload image first, then start loading Spline after first paint (faster perceived load)
+  useEffect(() => {
+    if (!isMobile || !isMounted) return;
+    const id = setTimeout(() => setMobileReadyForSpline(true), 150);
+    return () => clearTimeout(id);
+  }, [isMobile, isMounted]);
 
   useGSAP(
     () => {
@@ -90,7 +98,8 @@ export function HeroSection() {
 
   if (!isMounted) return <div className="min-h-screen bg-transparent" />;
 
-  const SplineScene = (
+  // Desktop: single Spline scene (only rendered when !isMobile)
+  const DesktopSplineScene = (
     <Spline
       scene="https://prod.spline.design/9aPp2nOUkM3wqAUO/scene.splinecode"
       onLoad={() => setIsSplineLoaded(true)}
@@ -129,18 +138,37 @@ export function HeroSection() {
           </a>
         </div>
 
-        {/* 3D Robot restored for Mobile - Optimized Loading */}
+        {/* Mobile: preload image first, then smooth crossfade to Spline (desktop part not rendered here = faster) */}
         <div className="absolute inset-0 z-0 pointer-events-none sm:pointer-events-auto">
-          {!isSplineLoaded && <RobotLoading />}
+          {/* Preload image — shows immediately, fades out when Spline is ready */}
           <div
-            className={
-              isSplineLoaded
-                ? "opacity-100 transition-opacity duration-1000 h-full w-full"
-                : "opacity-0 h-full w-full"
-            }
+            className={`absolute inset-0 transition-opacity duration-700 ease-out ${
+              isSplineLoaded ? "opacity-0" : "opacity-100"
+            }`}
+            aria-hidden={isSplineLoaded}
           >
-            {SplineScene}
+            <Image
+              src="/preload.jpg"
+              alt=""
+              fill
+              priority
+              sizes="100vw"
+              className="object-cover object-center"
+            />
           </div>
+          {/* Spline — only mounts after first paint so preload image shows first */}
+          {mobileReadyForSpline && (
+            <div
+              className={`absolute inset-0 h-full w-full transition-opacity duration-700 ease-out ${
+                isSplineLoaded ? "opacity-100" : "opacity-0"
+              }`}
+            >
+              <Spline
+                scene="https://prod.spline.design/9aPp2nOUkM3wqAUO/scene.splinecode"
+                onLoad={() => setIsSplineLoaded(true)}
+              />
+            </div>
+          )}
         </div>
       </section>
     );
@@ -237,7 +265,7 @@ export function HeroSection() {
                     : "opacity-0 h-full w-full"
                 }
               >
-                {SplineScene}
+                {DesktopSplineScene}
               </div>
 
               <motion.div
