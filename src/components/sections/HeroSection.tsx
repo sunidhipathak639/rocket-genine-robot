@@ -155,8 +155,8 @@ export function HeroSection({ onHeroReady }: HeroSectionProps = {}) {
     return (
       <section
         ref={containerRef}
-        className="sticky top-0 left-0 right-0 w-full h-[100dvh] h-[100svh] min-h-[100vh] bg-black z-20 overflow-hidden"
-        style={{ touchAction: "pan-y", height: "100dvh", minHeight: "100vh" }}
+        className="relative left-0 right-0 w-full min-h-[100dvh] min-h-[100svh] min-h-screen bg-black z-20 overflow-hidden"
+        style={{ touchAction: "pan-y" }}
       >
         {/* Skeleton: first load and return visit (fades out when content ready) */}
         <HeroSkeletonMobile
