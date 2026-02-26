@@ -11,6 +11,8 @@ import {
 } from "lucide-react";
 import { useRef, useState, useEffect } from "react";
 import { useSound } from "@/hooks/useSound";
+import { useHeroCache } from "@/hooks/useHeroCache";
+import { HeroSkeletonMobile, HeroSkeletonDesktop } from "@/components/sections/HeroSkeleton";
 import Image from "next/image";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
@@ -33,13 +35,21 @@ function RobotLoading() {
   );
 }
 
-export function HeroSection() {
+interface HeroSectionProps {
+  onHeroReady?: () => void;
+}
+
+export function HeroSection({ onHeroReady }: HeroSectionProps = {}) {
   const containerRef = useRef<HTMLDivElement>(null);
   const { playSound } = useSound();
+  const { isReturnVisit, markHeroLoaded } = useHeroCache();
   const [isMobile, setIsMobile] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
   const [isSplineLoaded, setIsSplineLoaded] = useState(false);
   const [mobileReadyForSpline, setMobileReadyForSpline] = useState(false);
+  const [preloadImageLoaded, setPreloadImageLoaded] = useState(false);
+  const [returnVisitSkeletonDismissed, setReturnVisitSkeletonDismissed] = useState(false);
+  const showHeroSkeleton = !(isSplineLoaded || preloadImageLoaded || returnVisitSkeletonDismissed);
 
   // Use MotionValues for smooth mouse tracking without re-renders
   const mouseX = useMotionValue(0);
@@ -52,6 +62,8 @@ export function HeroSection() {
       setIsMounted(true);
       setIsMobile(window.innerWidth < 768);
     });
+    // Fallback: ensure hero mounts even if RAF is delayed (e.g. slow phones, background tab)
+    const fallback = setTimeout(() => setIsMounted(true), 300);
 
     const checkMobile = () => {
       setIsMobile(window.innerWidth < 768);
@@ -59,16 +71,35 @@ export function HeroSection() {
     window.addEventListener("resize", checkMobile);
     return () => {
       cancelAnimationFrame(frame);
+      clearTimeout(fallback);
       window.removeEventListener("resize", checkMobile);
     };
   }, []);
 
-  // On mobile: show preload image first, then start loading Spline after first paint (faster perceived load)
+  // On mobile: show preload first, then load Spline. Return visit = load Spline immediately (cached).
   useEffect(() => {
     if (!isMobile || !isMounted) return;
-    const id = setTimeout(() => setMobileReadyForSpline(true), 150);
+    const delay = isReturnVisit ? 0 : 150;
+    const id = setTimeout(() => setMobileReadyForSpline(true), delay);
     return () => clearTimeout(id);
-  }, [isMobile, isMounted]);
+  }, [isMobile, isMounted, isReturnVisit]);
+
+  // On return visit, dismiss skeleton after brief moment so cached content can show
+  useEffect(() => {
+    if (!isReturnVisit) return;
+    const id = setTimeout(() => {
+      setReturnVisitSkeletonDismissed(true);
+      onHeroReady?.();
+    }, 80);
+    return () => clearTimeout(id);
+  }, [isReturnVisit, onHeroReady]);
+
+  // When preload image shows (mobile), allow sections to start fading in after a short delay
+  useEffect(() => {
+    if (!preloadImageLoaded || isSplineLoaded) return;
+    const id = setTimeout(() => onHeroReady?.(), 400);
+    return () => clearTimeout(id);
+  }, [preloadImageLoaded, isSplineLoaded, onHeroReady]);
 
   useGSAP(
     () => {
@@ -96,13 +127,27 @@ export function HeroSection() {
     return () => window.removeEventListener("mousemove", handleMouseMove);
   }, [isMobile, mouseX, mouseY]);
 
-  if (!isMounted) return <div className="min-h-screen bg-transparent" />;
+  // Placeholder must reserve full viewport height so hero doesn't collapse; fallbacks for older mobile browsers
+  if (!isMounted)
+    return (
+      <div
+        className="min-h-[100dvh] min-h-[100svh] min-h-screen w-full flex-shrink-0 bg-black"
+        style={{ minHeight: "100vh" }}
+        aria-hidden
+      />
+    );
+
+  const handleSplineLoad = () => {
+    setIsSplineLoaded(true);
+    markHeroLoaded();
+    onHeroReady?.();
+  };
 
   // Desktop: single Spline scene (only rendered when !isMobile)
   const DesktopSplineScene = (
     <Spline
       scene="https://prod.spline.design/9aPp2nOUkM3wqAUO/scene.splinecode"
-      onLoad={() => setIsSplineLoaded(true)}
+      onLoad={handleSplineLoad}
     />
   );
 
@@ -110,9 +155,17 @@ export function HeroSection() {
     return (
       <section
         ref={containerRef}
-        className="sticky top-0 w-full h-[100svh] bg-black z-0 overflow-hidden"
-        style={{ touchAction: "pan-y" }}
+        className="sticky top-0 left-0 right-0 w-full h-[100dvh] h-[100svh] min-h-[100vh] bg-black z-20 overflow-hidden"
+        style={{ touchAction: "pan-y", height: "100dvh", minHeight: "100vh" }}
       >
+        {/* Skeleton: first load and return visit (fades out when content ready) */}
+        <HeroSkeletonMobile
+          className={
+            showHeroSkeleton
+              ? "opacity-100 pointer-events-none"
+              : "opacity-0 pointer-events-none"
+          }
+        />
         <div className="absolute inset-0 z-10 pointer-events-none flex flex-col items-center justify-end px-6 pb-[25svh] text-center">
           <h1
             id="hero-title"
@@ -154,6 +207,7 @@ export function HeroSection() {
               priority
               sizes="100vw"
               className="object-cover object-center"
+              onLoad={() => setPreloadImageLoaded(true)}
             />
           </div>
           {/* Spline — only mounts after first paint so preload image shows first */}
@@ -165,7 +219,7 @@ export function HeroSection() {
             >
               <Spline
                 scene="https://prod.spline.design/9aPp2nOUkM3wqAUO/scene.splinecode"
-                onLoad={() => setIsSplineLoaded(true)}
+                onLoad={handleSplineLoad}
               />
             </div>
           )}
@@ -179,6 +233,13 @@ export function HeroSection() {
       ref={containerRef}
       className="sticky top-0 min-h-[100vh] flex flex-col items-center overflow-x-hidden border-b border-border/10 bg-transparent pt-16 sm:pt-24 md:pt-32 pb-8 sm:pb-12 z-0"
     >
+      <HeroSkeletonDesktop
+        className={
+          showHeroSkeleton
+            ? "opacity-100 pointer-events-none"
+            : "opacity-0 pointer-events-none"
+        }
+      />
       <div className="container relative mx-auto px-4 sm:px-6 md:px-12 z-10 w-full flex flex-col justify-center pt-8 mt-8 lg:pt-0 lg:mt-0 pb-8 sm:pb-16 lg:pb-0">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-16 items-center">
           <div className="flex flex-col items-center lg:items-start text-center lg:text-left w-full max-w-full md:max-w-2xl mx-auto lg:mx-0 px-4 relative z-20">

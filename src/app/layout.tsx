@@ -59,6 +59,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="scroll-smooth dark">
+      <head>
+        <link rel="preload" href="/preload.jpg" as="image" />
+      </head>
       <body
         className={`${fontHeading.variable} ${fontBody.variable} font-body antialiased min-h-screen bg-transparent text-foreground selection:bg-primary/30 selection:text-primary flex flex-col relative`}
       >
