@@ -65,13 +65,13 @@ export default function RootLayout({
       <body
         className={`${fontHeading.variable} ${fontBody.variable} font-body antialiased min-h-screen bg-transparent text-foreground selection:bg-primary/30 selection:text-primary flex flex-col relative`}
       >
-        <AIVoiceInitializer />
+        {/* <AIVoiceInitializer />
         <MouseTrail />
         <AIParticlesBackground />
         <AIChatbot />
         <Header />
         <main className="flex-1 relative z-10">{children}</main>
-        <Footer />
+        <Footer /> */}
       </body>
     </html>
   );
